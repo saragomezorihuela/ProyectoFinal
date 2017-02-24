@@ -22,4 +22,6 @@ import java.util.List;
  */
 @WebServlet(name = "PatientController", urlPatterns = "/patient")
 public class PatientController {
+
 }
+
