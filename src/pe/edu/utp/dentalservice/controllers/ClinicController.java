@@ -20,8 +20,52 @@ import java.util.List;
 /**
  * Created by SARA SHEENA on 24/02/2017.
  */
-@WebServlet(name = "ClinicController", urlPatterns = "/regions")
+@WebServlet(name = "ClinicController", urlPatterns = "/clinic")
 public class ClinicController extends HttpServlet{
 
+    private void processRequest(String httpMethod,
+                                HttpServletRequest request,
+                                HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
+        String url = "index.jsp";
 
+        if(httpMethod == "Get" && action == null) action = "index";
+        if(httpMethod == "Post" && action == null) action = "create";
+        if(httpMethod == "Post" && action != "create") return;
+        if(httpMethod == "Get" && action == "create") return;
+        if(action.equalsIgnoreCase("index")) {
+            try {
+                InitialContext ctx = new InitialContext();
+                DataSource ds = (DataSource) ctx.lookup("jdbc/MySQLDataSource");
+                Connection con = ds.getConnection();
+
+                HttpSession session = request.getSession(true);
+
+
+            } catch (NamingException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(action.equalsIgnoreCase("show")) {
+            try {
+                InitialContext ctx = new InitialContext();
+                DataSource ds = (DataSource) ctx.lookup("jdbc/MySQLDataSource");
+                Connection con = ds.getConnection();
+
+
+            } catch (NamingException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        RequestDispatcher requestDispatcher =
+                request.getRequestDispatcher(url);
+        requestDispatcher.forward(request, response);
+
+    }
 }
