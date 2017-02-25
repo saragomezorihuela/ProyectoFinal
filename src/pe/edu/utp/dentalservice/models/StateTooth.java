@@ -6,11 +6,11 @@ package pe.edu.utp.dentalservice.models;
 public class StateTooth {
 
     private int idStateTooth;
-    private String descriptionTreatment;
+    private String descriptionState;
 
     public StateTooth(int idStateTooth, String descripcionState) {
         this.idStateTooth = idStateTooth;
-        this.descriptionTreatment = descriptionTreatment;
+        this.descriptionState = descriptionState;
     }
 
     public StateTooth() {
@@ -26,11 +26,11 @@ public class StateTooth {
     }
 
     public String getdescripcionState() {
-        return descriptionTreatment;
+        return descriptionState;
     }
 
     public StateTooth setDescripcionTypeTreatment(String descripcionState) {
-        this.descriptionTreatment = descripcionState;
+        this.descriptionState = descripcionState;
         return this;
     }
 
