@@ -6,6 +6,6 @@ package pe.edu.utp.dentalservice.models;
 public class TypeTreatment {
 
     private int idTreatment;
-    private String descripcionTreatment;
+    private String descripcionTypeTreatment;
 
 }
