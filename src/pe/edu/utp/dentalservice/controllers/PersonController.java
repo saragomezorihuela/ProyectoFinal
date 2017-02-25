@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by De la Cruz on 24/02/2017.
+ * Created by Sara Sheena on 24/02/2017.
  */
 @WebServlet(name = "PersonController", urlPatterns = "/person")
 public class PersonController extends HttpServlet{

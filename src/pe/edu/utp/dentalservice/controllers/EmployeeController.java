@@ -18,8 +18,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by Cadellas on 24/02/2017.
+ * Created by Sara Sheena on 24/02/2017.
  */
-public class EmployeeController {
+@WebServlet(name = "EmployeeController", urlPatterns = "/employee")
+public class EmployeeController  extends HttpServlet{
 
 }

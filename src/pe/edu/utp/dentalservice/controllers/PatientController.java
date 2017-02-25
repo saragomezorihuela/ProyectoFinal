@@ -18,10 +18,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by Cadellas on 24/02/2017.
+ * Created by Sara Sheena on 24/02/2017.
  */
 @WebServlet(name = "PatientController", urlPatterns = "/patient")
-public class PatientController {
+public class PatientController  extends HttpServlet{
 
 }
 
