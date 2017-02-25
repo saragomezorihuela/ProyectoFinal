@@ -17,6 +17,7 @@ public class Person {
     private String email;
 
     public Person(int idPerson, String dni, String firstname, String lastname, Date birthdate, String phone, String cellphone, String email) {
+
         this.idPerson = idPerson;
         this.dni = dni;
         this.firstname = firstname;
@@ -25,6 +26,7 @@ public class Person {
         this.phone = phone;
         this.cellphone = cellphone;
         this.email = email;
+
     }
 
     public Person() {

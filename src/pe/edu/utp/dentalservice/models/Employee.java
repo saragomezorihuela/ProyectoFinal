@@ -6,6 +6,7 @@ package pe.edu.utp.dentalservice.models;
 public class Employee extends Person {
 
     public Employee() {
+
     }
 
 }

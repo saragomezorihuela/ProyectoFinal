@@ -18,5 +18,30 @@ public class Patient extends Person {
     public Patient() {
     }
 
+    public int getIdPatient() {
+        return idPatient;
+    }
 
+    public Patient setIdPatient(int idPatient) {
+        this.idPatient = idPatient;
+        return this;
+    }
+
+    public String getRelativename() {
+        return relativename;
+    }
+
+    public Patient setRelativename(String relativename) {
+        this.relativename = relativename;
+        return this;
+    }
+
+    public String getRelativephone() {
+        return relativephone;
+    }
+
+    public Patient setRelativephone(String relativephone) {
+        this.relativephone = relativephone;
+        return this;
+    }
 }
