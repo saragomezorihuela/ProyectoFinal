@@ -54,6 +54,15 @@ public class Profile {
         return this;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public Profile setType(String type) {
+        this.type = type;
+        return this;
+    }
+
     public String getUrl() {
         return url;
     }
