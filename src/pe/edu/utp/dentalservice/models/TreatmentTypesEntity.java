@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by DE LA CRUZ on 04/03/2017.
  */
+
 public class TreatmentTypesEntity extends BaseEntity{
 
     public TreatmentTypesEntity() {
