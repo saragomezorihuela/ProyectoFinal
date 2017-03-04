@@ -1,39 +1,80 @@
 package pe.edu.utp.dentalservice.models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
- * Created by Alex Aguillar  on 24/02/2017.
+ * Created by Rodrigo Rivas on 24/02/2017.
  */
 public class Profile {
 
-    private int idProfile;
-    private String descriptionProfile;
+    private int id;
+    private String description;
+    private String state;
+    private String type;
+    private String url;
 
-    public Profile(int idProfile, String descriptionProfile) {
+    public Profile(int id, String description, String state, String type, String url) {
 
-        this.idProfile = idProfile;
-        this.descriptionProfile = descriptionProfile;
+        this.id = id;
+        this.description = description;
+        this.state = state;
+        this.type = type;
+        this.url = url;
 
     }
 
     public Profile() {
     }
 
-    public int getIdProfile() {
-        return idProfile;
+    public int getId() {
+        return id;
     }
 
-    public Profile setIdProfile(int idProfile) {
-        this.idProfile = idProfile;
+    public Profile setId(int id) {
+        this.id = id;
         return this;
     }
 
-    public String getDescriptionProfile() {
-        return descriptionProfile;
+    public String getDescription() {
+        return description;
     }
 
-    public Profile setDescriptionProfile(String descriptionProfile) {
-        this.descriptionProfile = descriptionProfile;
+    public Profile setDescription(String description) {
+        this.description = description;
         return this;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public Profile setState(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Profile setUrl(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public static Profile build(ResultSet resultSet) {
+        try {
+            return new Profile(resultSet.getInt("id"),
+                    resultSet.getString("description"),
+                    resultSet.getString("state"),
+                    resultSet.getString("type"),
+                    resultSet.getString("url"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
 }
