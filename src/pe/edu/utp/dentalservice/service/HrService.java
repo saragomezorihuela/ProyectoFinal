@@ -1,9 +1,6 @@
 package pe.edu.utp.dentalservice.service;
 
-import pe.edu.utp.dentalservice.models.Person;
-import pe.edu.utp.dentalservice.models.PersonEntity;
-import pe.edu.utp.dentalservice.models.Hospital;
-import pe.edu.utp.dentalservice.models.HospitalsEntity;
+import pe.edu.utp.dentalservice.models.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -16,6 +13,8 @@ public class HrService {
     private Connection connection;
     private PersonEntity personEntity;
     private HospitalsEntity hospitalsEntity;
+    private GendersEntity gendersEntity;
+    private IdentityCardsEntity identityCardsEntity;
 
     public HrService() {
     }
@@ -51,8 +50,36 @@ public class HrService {
         }
         return hospitalsEntity;
     }
+
     protected void setHospitalsEntity(HospitalsEntity hospitalsEntity) {
         this.hospitalsEntity = hospitalsEntity;
+    }
+
+    protected GendersEntity getGendersEntity() {
+        if(connection != null) {
+            if(gendersEntity == null) {
+                gendersEntity = new GendersEntity();
+                gendersEntity.setConnection(getConnection());
+            }
+        }
+        return gendersEntity;
+    }
+
+    protected void setGendersEntity(GendersEntity gendersEntity) {
+        this.gendersEntity = gendersEntity;
+    }
+    protected IdentityCardsEntity getIdentityCardsEntity() {
+        if(connection != null) {
+            if(gendersEntity == null) {
+                gendersEntity = new GendersEntity();
+                gendersEntity.setConnection(getConnection());
+            }
+        }
+        return identityCardsEntity;
+    }
+
+    protected void setIdentityCardsEntity(IdentityCardsEntity identityCardsEntity) {
+        this.identityCardsEntity = identityCardsEntity;
     }
 
 }
