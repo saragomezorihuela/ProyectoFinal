@@ -36,4 +36,16 @@ public class Country {
         this.description = description;
         return this;
     }
+
+    public static Country build(ResultSet resultSet) {
+        try {
+            return new Country(resultSet.getInt("id"),
+                    resultSet.getString("description"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 }
