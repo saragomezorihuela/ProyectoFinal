@@ -15,6 +15,7 @@ public class HrService {
     private HospitalsEntity hospitalsEntity;
     private GendersEntity gendersEntity;
     private IdentityCardsEntity identityCardsEntity;
+    private BloodTypesEntity bloodTypesEntity;
 
     public HrService() {
     }
@@ -70,9 +71,9 @@ public class HrService {
     }
     protected IdentityCardsEntity getIdentityCardsEntity() {
         if(connection != null) {
-            if(gendersEntity == null) {
-                gendersEntity = new GendersEntity();
-                gendersEntity.setConnection(getConnection());
+            if(identityCardsEntity == null) {
+                identityCardsEntity = new IdentityCardsEntity();
+                identityCardsEntity.setConnection(getConnection());
             }
         }
         return identityCardsEntity;
@@ -80,6 +81,20 @@ public class HrService {
 
     protected void setIdentityCardsEntity(IdentityCardsEntity identityCardsEntity) {
         this.identityCardsEntity = identityCardsEntity;
+    }
+
+    protected BloodTypesEntity getBloodTypesEntity() {
+        if(connection != null) {
+            if(bloodTypesEntity == null) {
+                bloodTypesEntity = new BloodTypesEntity();
+                bloodTypesEntity.setConnection(getConnection());
+            }
+        }
+        return bloodTypesEntity;
+    }
+
+    protected void setBloodTypesEntity(BloodTypesEntity bloodTypesEntity) {
+        this.bloodTypesEntity = bloodTypesEntity;
     }
 
 }
