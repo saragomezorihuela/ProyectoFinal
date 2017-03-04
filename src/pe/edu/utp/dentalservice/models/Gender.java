@@ -4,7 +4,6 @@ import com.sun.org.apache.xpath.internal.operations.String;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 /**
  * Created by SARA SHEENA on 04/03/2017.
@@ -14,7 +13,8 @@ public class Gender {
     private int id;
     private String description;
 
-      public Gender(int id, java.lang.String description){}
+    //VERIFICAR
+    public Gender(int id, java.lang.String description){}
 
     public Gender(int id, String description) {
         this.id = id;
