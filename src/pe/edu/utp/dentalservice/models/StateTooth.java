@@ -1,37 +1,50 @@
 package pe.edu.utp.dentalservice.models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 /**
- * Created by De la Cruz on 25/02/2017.
+ * Created by Jonathan Rojas on 25/02/2017.
  */
 public class StateTooth {
 
-    private int idStateTooth;
-    private String descriptionState;
+    private int id;
+    private String description;
 
-    public StateTooth(int idStateTooth, String descripcionState) {
-        this.idStateTooth = idStateTooth;
-        this.descriptionState = descriptionState;
+    public StateTooth(int id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
     public StateTooth() {
     }
 
-    public int getidStateTooth() {
-        return idStateTooth;
+    public int getId() {
+        return id;
     }
 
-    public StateTooth setidStateTooth(int idStateTooth) {
-        this.idStateTooth = idStateTooth;
+    public StateTooth setId(int id) {
+        this.id = id;
         return this;
     }
 
-    public String getdescripcionState() {
-        return descriptionState;
+    public String getDescription() {
+        return description;
     }
 
-    public StateTooth setDescripcionTypeTreatment(String descripcionState) {
-        this.descriptionState = descripcionState;
+    public StateTooth setDescription(String description) {
+        this.description = description;
         return this;
+    }
+
+    public static StateTooth build(ResultSet resultSet) {
+        try {
+            return new StateTooth(resultSet.getInt("id"),
+                    resultSet.getString("description"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
 }
