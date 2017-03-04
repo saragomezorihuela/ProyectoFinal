@@ -1,36 +1,39 @@
 package pe.edu.utp.dentalservice.models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
- * Created by Rodrigo on 24/02/2017.
+ * Created by Alex Aguilar on 24/02/2017.
  */
 public class Country {
 
-    private int idCountry;
-    private String descriptionCountry;
+    private int id;
+    private String description;
 
-    public Country(int idCountry, String descriptionCountry) {
-        this.idCountry = idCountry;
-        this.descriptionCountry = descriptionCountry;
+    public Country(int id, String descriptionCountry) {
+        this.id = id;
+        this.description = description;
     }
 
     public Country() {
     }
 
-    public int getIdCountry() {
-        return idCountry;
+    public int getId() {
+        return id;
     }
 
-    public Country setIdCountry(int idCountry) {
-        this.idCountry = idCountry;
+    public Country setId(int id) {
+        this.id = id;
         return this;
     }
 
-    public String getDescriptionCountry() {
-        return descriptionCountry;
+    public String getDescription() {
+        return description;
     }
 
-    public Country setDescriptionCountry(String descriptionCountry) {
-        this.descriptionCountry = descriptionCountry;
+    public Country setDescription(String description) {
+        this.description = description;
         return this;
     }
 }
