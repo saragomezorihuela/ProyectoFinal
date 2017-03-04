@@ -12,7 +12,7 @@ import java.util.List;
 public class ProfilesEntity extends BaseEntity{
 
     public ProfilesEntity() {
-        super("PROFILE");
+        super("PROFILES");
     }
 
     public List<Profile> findAll() {
@@ -58,7 +58,7 @@ public class ProfilesEntity extends BaseEntity{
     }
 
     public Profile create(int id, String description, String state, String type, String url) {
-        String sql = "INSERT INTO PROFILE(id, description, state, type, url) " +
+        String sql = "INSERT INTO PROFILES(id, description, state, type, url) " +
                 "VALUES(" + String.valueOf(id) + ", '" + description + "', '" + state + "', '" + type + "', '" + url + "')";
         return updateByCriteria(sql) > 0 ? new Profile(id, description, state, type, url) : null;
     }
