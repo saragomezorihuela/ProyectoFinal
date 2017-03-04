@@ -16,6 +16,10 @@ public class HrService {
     private GendersEntity gendersEntity;
     private IdentityCardsEntity identityCardsEntity;
     private BloodTypesEntity bloodTypesEntity;
+    private TreatmentTypesEntity treatmentTypesEntity;
+    private StatesToothEntity statesToothEntity;
+    private CountriesEntity countriesEntity;
+    private ProfilesEntity profilesEntity;
 
     public HrService() {
     }
@@ -95,6 +99,62 @@ public class HrService {
 
     protected void setBloodTypesEntity(BloodTypesEntity bloodTypesEntity) {
         this.bloodTypesEntity = bloodTypesEntity;
+    }
+
+    protected TreatmentTypesEntity getTreatmentTypesEntity() {
+        if(connection != null) {
+            if(treatmentTypesEntity == null) {
+                treatmentTypesEntity = new TreatmentTypesEntity();
+                treatmentTypesEntity.setConnection(getConnection());
+            }
+        }
+        return treatmentTypesEntity;
+    }
+
+    protected void setTreatmentTypesEntity(TreatmentTypesEntity treatmentTypesEntity) {
+        this.bloodTypesEntity = bloodTypesEntity;
+    }
+
+    protected StatesToothEntity getStatesToothEntity() {
+        if(connection != null) {
+            if(statesToothEntity == null) {
+                statesToothEntity = new StatesToothEntity();
+                statesToothEntity.setConnection(getConnection());
+            }
+        }
+        return statesToothEntity;
+    }
+
+    protected void setStatesToothEntity(StatesToothEntity statesToothEntity) {
+        this.statesToothEntity = statesToothEntity;
+    }
+
+    protected CountriesEntity getCountriesEntity() {
+        if(connection != null) {
+            if(countriesEntity == null) {
+                countriesEntity = new CountriesEntity();
+                countriesEntity.setConnection(getConnection());
+            }
+        }
+        return countriesEntity;
+    }
+
+    protected void setCountriesEntity(CountriesEntity countriesEntity) {
+        this.countriesEntity = countriesEntity;
+    }
+
+    protected ProfilesEntity getProfilesEntity() {
+        if(connection != null) {
+            if(profilesEntity == null) {
+                profilesEntity = new ProfilesEntity();
+                profilesEntity.setConnection(getConnection());
+            }
+        }
+        return profilesEntity;
+    }
+
+    protected void setProfilesEntity(ProfilesEntity profilesEntity) {
+        this.profilesEntity = profilesEntity;
     }
 
 }
