@@ -37,9 +37,9 @@ public class TreatmentType {
         return this;
     }
 
-    public static IdentityCard build(ResultSet resultSet) {
+    public static TreatmentType build(ResultSet resultSet) {
         try {
-            return new IdentityCard(resultSet.getInt("id"),
+            return new TreatmentType(resultSet.getInt("id"),
                     resultSet.getString("description"));
         } catch (SQLException e) {
             e.printStackTrace();
