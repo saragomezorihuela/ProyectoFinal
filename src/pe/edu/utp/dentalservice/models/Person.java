@@ -1,5 +1,7 @@
 package pe.edu.utp.dentalservice.models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -7,18 +9,24 @@ import java.util.Date;
  */
 public class Person {
 
-    private int idPerson;
-    private String dni;
-    private String firstname;
-    private String lastname;
-    private Date birthdate;
-    private String phone;
-    private String cellphone;
-    private String email;
+    protected int id;
+    protected String dni;
+    protected String firstname;
+    protected String lastname;
+    protected Date birthdate;
+    protected String phone;
+    protected String cellphone;
+    protected String email;
 
-    public Person(int idPerson, String dni, String firstname, String lastname, Date birthdate, String phone, String cellphone, String email) {
+    private Hospital hospital;
+    private Gender gender;
+    private BloodType bloodType;
+    private IdentityCard identityCard;
 
-        this.idPerson = idPerson;
+    public Person(int id, String dni, String firstname, String lastname, Date birthdate, String phone, String cellphone, String email,
+                  Hospital hospital) {
+
+        this.id = id;
         this.dni = dni;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -27,17 +35,18 @@ public class Person {
         this.cellphone = cellphone;
         this.email = email;
 
+        this.hospital = hospital;
     }
 
     public Person() {
     }
 
-    public int getIdPerson() {
-        return idPerson;
+    public int getId() {
+        return id;
     }
 
-    public Person setIdPersona(int idPerson) {
-        this.idPerson = idPerson;
+    public Person setIdPersona(int id) {
+        this.id = id;
         return this;
     }
 
@@ -102,6 +111,41 @@ public class Person {
     public Person setEmail(String email) {
         this.email = email;
         return this;
+    }
+
+    //////////////////////////////////////
+    // RELACION CON LAS CLASE RELACIONADAS
+    //////////////////////////////////////
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public BloodType getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(BloodType bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public IdentityCard getIdentityCard() {
+        return identityCard;
+    }
+
+    public void setIdentityCard(IdentityCard identityCard) {
+        this.identityCard = identityCard;
     }
 
 }
