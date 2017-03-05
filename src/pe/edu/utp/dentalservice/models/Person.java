@@ -1,5 +1,7 @@
 package pe.edu.utp.dentalservice.models;
 
+import com.sun.javafx.geom.transform.Identity;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -24,7 +26,7 @@ public class Person {
     private IdentityCard identityCard;
 
     public Person(int id, String dni, String firstname, String lastname, Date birthdate, String phone, String cellphone, String email,
-                  Hospital hospital) {
+                  Hospital hospital, Gender gender, BloodType bloodType, IdentityCard identityCard) {
 
         this.id = id;
         this.dni = dni;
@@ -36,6 +38,10 @@ public class Person {
         this.email = email;
 
         this.hospital = hospital;
+        this.gender = gender;
+        this.bloodType = bloodType;
+        this.identityCard = identityCard;
+
     }
 
     public Person() {
