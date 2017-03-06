@@ -3,6 +3,7 @@ package pe.edu.utp.dentalservice.models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 /**
  * Created by Alex Aguilar on 06/03/2017.
  */
