@@ -1,37 +1,60 @@
 package pe.edu.utp.dentalservice.models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
- * Created by Rodrigo on 25/02/2017.
+ * Created by Alex Aguilar on 25/02/2017.
  */
 public class District {
 
-    private int idDistrict;
-    private String descriptionDistrict;
+    private int id;
+    private String description;
 
-    public District(int idDistrict, String descriptionDistrict) {
-        this.idDistrict = idDistrict;
-        this.descriptionDistrict = descriptionDistrict;
+    private Province province;
+
+    public District(int id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
     public District() {
     }
 
-    public int getIdDistrict() {
-        return idDistrict;
+    public int getId() {
+        return id;
     }
 
-    public District setIdDistrict(int idDistrict) {
-        this.idDistrict = idDistrict;
+    public District setId(int id) {
+        this.id = id;
         return this;
     }
 
-    public String getDescriptionDistrict() {
-        return descriptionDistrict;
+    public String getDescription() {
+        return description;
     }
 
-    public District setDescriptionDistrict(String descriptionDistrict) {
-        this.descriptionDistrict = descriptionDistrict;
+    public District setDescription(String description) {
+        this.description = description;
         return this;
+    }
+
+    public Province getProvince() {
+        return province;
+    }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
+
+    public static District build(ResultSet resultSet) {
+        try {
+            return new District(resultSet.getInt("id"),
+                    resultSet.getString("description"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
