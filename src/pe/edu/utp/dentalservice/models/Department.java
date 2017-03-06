@@ -1,38 +1,60 @@
 package pe.edu.utp.dentalservice.models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
- * Created by Rodrigo on 24/02/2017.
+ * Created by Alex Aguilar on 24/02/2017.
  */
 public class Department {
 
-    private int idDepartment;
-    private String descriptionDepartment;
+    private int id;
+    private String description;
 
+    private Country country;
 
-    public Department(int idDepartment, String descriptionDepartment) {
-        this.idDepartment = idDepartment;
-        this.descriptionDepartment = descriptionDepartment;
+    public Department(int id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
     public Department() {
     }
 
-    public int getIdDepartment() {
-        return idDepartment;
+    public int getId() {
+        return id;
     }
 
-    public Department setIdDepartment(int idDepartment) {
-        this.idDepartment = idDepartment;
+    public Department setId(int id) {
+        this.id = id;
         return this;
     }
 
-    public String getDescriptionDepartment() {
-        return descriptionDepartment;
+    public String getDescription() {
+        return description;
     }
 
-    public Department setDescriptionDepartment(String descriptionDepartment) {
-        this.descriptionDepartment = descriptionDepartment;
+    public Department setDescription(String description) {
+        this.description = description;
         return this;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public static Department build(ResultSet resultSet) {
+        try {
+            return new Department(resultSet.getInt("id"),
+                    resultSet.getString("description"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
