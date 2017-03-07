@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by De la Cruz on 25/02/2017.
+ * Created by Jonathan Rojas on 25/02/2017.
  */
 public class Tooth {
 
