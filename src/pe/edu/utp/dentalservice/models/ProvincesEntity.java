@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class ProvincesEntity extends BaseEntity{
 
+    private DepartmentsEntity departmentsEntity;
 
     public ProvincesEntity() {
         super("PROVINCES");
@@ -25,7 +26,7 @@ public class ProvincesEntity extends BaseEntity{
         try {
             ResultSet rs = getConnection().createStatement().executeQuery(sql);
             while(rs.next()) {
-                Province province = Province.build(rs);
+                Province province = Province.build(rs, getDepartmentsEntity());
                 provinces.add(province);
             }
         } catch (SQLException e) {
@@ -57,10 +58,10 @@ public class ProvincesEntity extends BaseEntity{
         return 0;
     }
 
-    public Province create(int id, String description) {
+    public Province create(int id, String description, int department_id) {
         String sql = "INSERT INTO PROVINCES(id, description) " +
                 "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new Province(id, description) : null;
+        return updateByCriteria(sql) > 0 ? new Province(id, description, getDepartmentsEntity().findById(department_id)) : null;
     }
 
     public boolean update(Province province) {
@@ -72,6 +73,14 @@ public class ProvincesEntity extends BaseEntity{
     public boolean delete(int id) {
         String sql = "DELETE FROM PROVINCES WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
-    }  
+    }
+
+    public DepartmentsEntity getDepartmentsEntity() {
+        return departmentsEntity;
+    }
+
+    public void setDepartmentsEntity(DepartmentsEntity departmentsEntity) {
+        this.departmentsEntity = departmentsEntity;
+    }
 
 }
