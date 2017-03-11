@@ -59,8 +59,8 @@ public class ProvincesEntity extends BaseEntity{
     }
 
     public Province create(int id, String description, int department_id) {
-        String sql = "INSERT INTO PROVINCES(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
+        String sql = "INSERT INTO PROVINCES(id, department_id, description) " +
+                "VALUES(" + String.valueOf(id) + ", " + String.valueOf(department_id) + ", '" + description + "',)";
         return updateByCriteria(sql) > 0 ? new Province(id, description, getDepartmentsEntity().findById(department_id)) : null;
     }
 
