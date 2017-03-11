@@ -13,9 +13,11 @@ public class District {
 
     private Province province;
 
-    public District(int id, String description) {
+    public District(int id, String description, Province province) {
         this.id = id;
         this.description = description;
+
+        this.province = province;
     }
 
     public District() {
@@ -47,10 +49,11 @@ public class District {
         this.province = province;
     }
 
-    public static District build(ResultSet resultSet) {
+    public static District build(ResultSet resultSet, ProvincesEntity provincesEntity) {
         try {
             return new District(resultSet.getInt("id"),
-                    resultSet.getString("description"));
+                    resultSet.getString("description"),
+                    provincesEntity.findById(resultSet.getInt("province_id")));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
