@@ -120,7 +120,7 @@ public class Person {
     }
 
     //////////////////////////////////////
-    // RELACION CON LAS CLASE RELACIONADAS
+    // ENLACE CON LAS CLASE RELACIONADAS
     //////////////////////////////////////
     public Hospital getHospital() {
         return hospital;
