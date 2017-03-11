@@ -13,9 +13,11 @@ public class Department {
 
     private Country country;
 
-    public Department(int id, String description) {
+    public Department(int id, String description, Country country) {
         this.id = id;
         this.description = description;
+
+        this.country = country;
     }
 
     public Department() {
@@ -47,10 +49,11 @@ public class Department {
         this.country = country;
     }
 
-    public static Department build(ResultSet resultSet) {
+    public static Department build(ResultSet resultSet, CountriesEntity countriesEntity) {
         try {
             return new Department(resultSet.getInt("id"),
-                    resultSet.getString("description"));
+                    resultSet.getString("description"),
+                    countriesEntity.findById(resultSet.getInt("country_id")));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
