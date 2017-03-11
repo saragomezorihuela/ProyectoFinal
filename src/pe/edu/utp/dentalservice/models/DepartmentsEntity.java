@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class DepartmentsEntity extends BaseEntity{
 
+    private CountriesEntity countriesEntity;
+
     public DepartmentsEntity() {
         super("DEPARTMENTS");
     }
@@ -25,7 +27,7 @@ public class DepartmentsEntity extends BaseEntity{
         try {
             ResultSet rs = getConnection().createStatement().executeQuery(sql);
             while(rs.next()) {
-                Department department = Department.build(rs);
+                Department department = Department.build(rs, getCountriesEntity());
                 departments.add(department);
             }
         } catch (SQLException e) {
@@ -57,10 +59,10 @@ public class DepartmentsEntity extends BaseEntity{
         return 0;
     }
 
-    public Department create(int id, String description) {
+    public Department create(int id, String description, int countryId) {
         String sql = "INSERT INTO DEPARTMENTS(id, description) " +
                 "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new Department(id, description) : null;
+        return updateByCriteria(sql) > 0 ? new Department(id, description, getCountriesEntity().findById(countryId)) : null;
     }
 
     public boolean update(Department department) {
@@ -72,5 +74,13 @@ public class DepartmentsEntity extends BaseEntity{
     public boolean delete(int id) {
         String sql = "DELETE FROM DEPARTMENTS WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
+    }
+
+    public CountriesEntity getCountriesEntity() {
+        return countriesEntity;
+    }
+
+    public void setCountriesEntity(CountriesEntity countriesEntity) {
+        this.countriesEntity = countriesEntity;
     }
 }
