@@ -63,7 +63,7 @@ public class ToothsEntity extends BaseEntity {
     }
 
     public boolean update(Tooth tooth) {
-        String sql = "UPDATE TOOTHS SET description = '" + tooth.getDescription() + "','" + tooth.getNumber() + "'" +
+        String sql = "UPDATE TOOTHS SET description = '" + tooth.getDescription() + "',number = '" + tooth.getNumber() + "'" +
                 "' WHERE id = " + String.valueOf(tooth.getId());
         return updateByCriteria(sql) > 0;
     }
