@@ -66,7 +66,7 @@ public class Schedule {
             return new Schedule(resultSet.getInt("id"),
                     resultSet.getDate("start"),
                     resultSet.getDate("finish"),
-                    turnsEntity.findById(resultSet.getInt("province_id")));
+                    turnsEntity.findById(resultSet.getInt("turn_id")));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
