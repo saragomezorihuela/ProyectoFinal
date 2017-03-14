@@ -6,6 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by DE LA CRUZ on 14/03/2017.
  */
+
 public class Treatment {
 
     private int id;
