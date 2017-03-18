@@ -15,12 +15,13 @@ public class Doctor extends Person {
         super();
     }
 
-    public Doctor(int id, String dni, String firstname, String lastname, Date birthdate, String phone, String cellphone, String email, String CCO,
-                  Hospital hospital, Gender gender, BloodType bloodType, IdentityCard identityCard) {
+    private MedicalEspeciality medicalEspeciality;
 
-        super(id, dni, firstname, lastname, birthdate, phone, cellphone, email, hospital, gender, bloodType, identityCard);
+    public Doctor(int id, String CCO, MedicalEspeciality medicalEspeciality) {
+
         this.CCO = CCO;
 
+        this.medicalEspeciality = medicalEspeciality;
     }
 
     public String getCCO() {
@@ -32,22 +33,18 @@ public class Doctor extends Person {
         return this;
     }
 
-    public static Doctor build(ResultSet resultSet, HospitalsEntity hospitalEntity, GendersEntity gendersEntity,
-                               BloodTypesEntity bloodTypesEntity, IdentityCardsEntity identityCardsEntity) {
+    public MedicalEspeciality getMedicalEspeciality() {
+        return medicalEspeciality;
+    }
+
+    public void setMedicalEspeciality(MedicalEspeciality medicalEspeciality) {
+        this.medicalEspeciality = medicalEspeciality;
+    }
+    public static Doctor build(ResultSet resultSet, MedicalEspecialitiesEntity medicalEspecialitiesEntity) {
         try {
             return new Doctor(resultSet.getInt("id"),
-                            resultSet.getString("dni"),
-                            resultSet.getString("first_name"),
-                            resultSet.getString("last_name"),
-                            resultSet.getDate("birth_date"),
-                            resultSet.getString("phone"),
-                            resultSet.getString("cellphone"),
-                            resultSet.getString("email"),
                             resultSet.getString("CCO"),
-                            hospitalEntity.findById(resultSet.getInt("hospital_id")),
-                                    gendersEntity.findById(resultSet.getInt("gender_id")),
-                                            bloodTypesEntity.findById(resultSet.getInt("blood_type_id")),
-                                                    identityCardsEntity.findById(resultSet.getInt("identity_card_id"))
+                    medicalEspecialitiesEntity.findById(resultSet.getInt("medical_id"))
                     );
         } catch (SQLException e) {
             e.printStackTrace();
