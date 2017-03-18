@@ -24,9 +24,10 @@ public class Person {
     private Gender gender;
     private BloodType bloodType;
     private IdentityCard identityCard;
+    private District district;
 
     public Person(int id, String dni, String firstname, String lastname, Date birthdate, String phone, String cellphone, String email,
-                  Hospital hospital, Gender gender, BloodType bloodType, IdentityCard identityCard) {
+                  Hospital hospital, Gender gender, BloodType bloodType, IdentityCard identityCard, District district) {
 
         this.id = id;
         this.dni = dni;
@@ -41,6 +42,7 @@ public class Person {
         this.gender = gender;
         this.bloodType = bloodType;
         this.identityCard = identityCard;
+        this.district = district;
 
     }
 
@@ -152,6 +154,37 @@ public class Person {
 
     public void setIdentityCard(IdentityCard identityCard) {
         this.identityCard = identityCard;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
+    }
+
+
+    public static Person build(ResultSet resultSet, HospitalsEntity hospitalsEntity, BloodTypesEntity bloodTypesEntity,
+                               IdentityCardsEntity  identityCardsEntity, DistrictsEntity districtsEntity, GendersEntity gendersEntity) {
+        try {
+            return new Person(resultSet.getInt("id"),
+                    resultSet.getString("dni"),
+                    resultSet.getString("first_name"),
+                    resultSet.getString("last_name"),
+                    resultSet.getDate("birth_date"),
+                    resultSet.getString("phone"),
+                    resultSet.getString("cellphone"),
+                    resultSet.getString("email"),
+                    hospitalsEntity.findById(resultSet.getInt("hospital_id")),
+                    gendersEntity.findById(resultSet.getInt("gender_id")),
+                    bloodTypesEntity.findById(resultSet.getInt("rblood_type_id")),
+                    identityCardsEntity.findById(resultSet.getInt("identity_card_id")),
+                    districtsEntity.findById(resultSet.getInt("distrit_id")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
