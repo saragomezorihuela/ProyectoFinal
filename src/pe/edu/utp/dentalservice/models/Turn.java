@@ -2,16 +2,22 @@ package pe.edu.utp.dentalservice.models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  * Created by Jonathan Rojas on 06/03/2017.
  */
+@ManagedBean
+@RequestScoped
 public class Turn {
 
     private int id;
     private String description;
 
-    public Turn(int id, String descriptionCountry) {
+    public Turn(int id, String description) {
         this.id = id;
         this.description = description;
     }
@@ -23,29 +29,16 @@ public class Turn {
         return id;
     }
 
-    public Turn setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public Turn setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public static Turn build(ResultSet resultSet) {
-        try {
-            return new Turn(resultSet.getInt("id"),
-                    resultSet.getString("description"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
     }
 
 }
