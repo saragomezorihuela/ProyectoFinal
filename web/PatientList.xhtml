@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<link rel="stylesheet" type="text/css" href="Style.css"/>
+
+<h:body>
+    <f:view>
+        <h:form>
+            <div class="box">
+                <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
+                <h2 class="titulo">Mantenimiento de Pacientes</h2>
+                <h:commandButton value = "Agregar" action = "PatientAdd" styleClass="buttonGrilla">
+                </h:commandButton>
+
+                <h:dataTable styleClass="people"
+                             cellspacing="0"
+                             cellpadding="0"
+                             border="0"
+                             value="#{patientBean.patients}" var="patient">
+                    <h:column>
+                        <f:facet name="header" >Id</f:facet>
+                        #{patient.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">DNI</f:facet>
+                        #{patient.nroDocumento}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Apellidos</f:facet>
+                        #{patient.lastname}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nombres</f:facet>
+                        #{patient.firstname}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Fec. Nac</f:facet>
+                        #{patient.birthdate}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Telf.</f:facet>
+                        #{patient.phone}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Celular</f:facet>
+                        #{patient.cellphone}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Email</f:facet>
+                        #{patient.email}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header"></f:facet>
+                        <h:commandButton value = "Editar" action="#{hospitalBean.edit(hospital)}" styleClass="buttonGrilla">
+                        </h:commandButton>
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header"></f:facet>
+                        <h:commandButton value = "Eliminar"
+                                         action = "#{hospitalBean.delete(turn)}"
+                                         styleClass="buttonGrilla"
+                                         onclick="if (! confirm('Está seguro de eliminar el hospital?')) return false">
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:form>
+    </f:view>
+</h:body>
+</html>
