@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<link rel="stylesheet" type="text/css" href="Style.css"/>
+
+<h:body>
+    <f:view>
+        <h:form>
+            <div class="box">
+                <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
+                <h2 class="titulo">Agregar Tipo de Tratamiento</h2>
+                <h:panelGrid columns="2" id="paneleditar" >
+                    <h:outputLabel value="Descripción:" /><h:inputText id="description" value="#{treatmentType.description}"/>
+                </h:panelGrid>
+                <h:commandButton value="Grabar" action="#{treatmentTypeBean.add(treatmentType)}" styleClass="buttonGrilla">
+                </h:commandButton>
+                <h:commandButton value="Cancelar" action="TreatmentTypeList" styleClass="buttonGrilla">
+                </h:commandButton>
+        </div>
+    </h:form>
+</f:view>
+</h:body>
+</html>
