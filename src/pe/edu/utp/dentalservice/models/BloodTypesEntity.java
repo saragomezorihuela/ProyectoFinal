@@ -9,42 +9,36 @@ import java.util.List;
  */
 public class BloodTypesEntity extends BaseEntity {
 
-    public BloodTypesEntity() {
-        super("BLOOD_TYPES");
-    }
-
     public List<BloodType> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<BloodType> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.blood_types";
+        ResultSet resultSet = null;
         List<BloodType> bloodTypes = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                BloodType bloodType = BloodType.build(rs);
-                bloodTypes.add(bloodType);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                bloodTypes.add(new BloodType(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return bloodTypes;
+
     }
 
+    public int getBloodTypesCount() {
 
-    public BloodType findById(int id) {
-        String statement = "SELECT * FROM BLOOD_TYPES WHERE id = " +
-                String.valueOf(id);
-        List<BloodType> bloodTypes = findByCriteria(statement);
-        return bloodTypes != null ? bloodTypes.get(0) : null;
-    }
+        String sql = "SELECT COUNT(*) AS turns_count FROM dbdentalservice.blood_types";
+        int bloodTypesCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) bloodTypesCount = resultSet.getInt("bloodTypes_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bloodTypesCount;
 
-    public BloodType findByName(String name) {
-        String statement = "SELECT * FROM BLOOD_TYPES WHERE description = '" +
-                name + "'";
-        List<BloodType> bloodTypes = findByCriteria(statement);
-        return bloodTypes != null ? bloodTypes.get(0) : null;
     }
 
     private int updateByCriteria(String sql) {
@@ -56,20 +50,21 @@ public class BloodTypesEntity extends BaseEntity {
         return 0;
     }
 
-    public BloodType create(int id, String description) {
-        String sql = "INSERT INTO BLOOD_TYPES(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new BloodType(id, description) : null;
-    }
+    public boolean create(BloodType bloodType) {
+        String sql = "INSERT INTO dbdentalservice.blood_types(description) " +
+                "VALUES('" + bloodType.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(BloodType bloodType) {
-        String sql = "UPDATE BLOOD_TYPES SET description = '" + bloodType.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(bloodType.getId());
+        String sql = "UPDATE dbdentalservice.blood_types SET description = '" + bloodType.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(bloodType.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM BLOODTYPES WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.blood_types WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
+
 }
