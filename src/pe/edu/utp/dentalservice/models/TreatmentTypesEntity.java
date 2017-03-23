@@ -11,41 +11,36 @@ import java.util.List;
 
 public class TreatmentTypesEntity extends BaseEntity{
 
-    public TreatmentTypesEntity() {
-        super("TREATMENT_TYPES");
-    }
-
     public List<TreatmentType> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<TreatmentType> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.treatment_types";
+        ResultSet resultSet = null;
         List<TreatmentType> treatmentTypes = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                TreatmentType treatmentType = TreatmentType.build(rs);
-                treatmentTypes.add(treatmentType);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                treatmentTypes.add(new TreatmentType(resultSet.getInt("id"),
+                                                    resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return treatmentTypes;
+
     }
 
-    public TreatmentType findById(int id) {
-        String statement = "SELECT * FROM TREATMENT_TYPES WHERE id = " +
-                String.valueOf(id);
-        List<TreatmentType> treatmentTypes = findByCriteria(statement);
-        return treatmentTypes != null ? treatmentTypes.get(0) : null;
-    }
+    public int getTreatmentTypesCount() {
 
-    public TreatmentType findByName(String name) {
-        String statement = "SELECT * FROM TREATMENT_TYPES WHERE description = '" +
-                name + "'";
-        List<TreatmentType> treatmentTypes = findByCriteria(statement);
-        return treatmentTypes != null ? treatmentTypes.get(0) : null;
+        String sql = "SELECT COUNT(*) AS treatmentTypes_count FROM dbdentalservice.treatment_types";
+        int treatmentTypesCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) treatmentTypesCount = resultSet.getInt("treatmentTypes_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return treatmentTypesCount;
+
     }
 
     private int updateByCriteria(String sql) {
@@ -57,20 +52,21 @@ public class TreatmentTypesEntity extends BaseEntity{
         return 0;
     }
 
-    public TreatmentType create(int id, String description) {
-        String sql = "INSERT INTO TREATMENT_TYPES(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new TreatmentType(id, description) : null;
+    public boolean create(TreatmentType treatmentType) {
+        String sql = "INSERT INTO dbdentalservice.treatment_types(description) " +
+                "VALUES('" + treatmentType.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
+
     }
 
     public boolean update(TreatmentType treatmentType) {
-        String sql = "UPDATE TREATMENT_TYPES SET description = '" + treatmentType.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(treatmentType.getId());
+        String sql = "UPDATE dbdentalservice.treatment_types SET description = '" + treatmentType.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(treatmentType.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM TREATMENT_TYPES WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.treatment_types WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
 
