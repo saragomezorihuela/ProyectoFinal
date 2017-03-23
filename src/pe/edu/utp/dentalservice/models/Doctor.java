@@ -1,5 +1,7 @@
 package pe.edu.utp.dentalservice.models;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -7,7 +9,9 @@ import java.util.Date;
 /**
  * Created by SARA SHEENA on 24/02/2017.
  */
-public class Doctor extends Person {
+@ManagedBean
+@RequestScoped
+public class Doctor extends People {
 
     private String CCO;
 
@@ -17,20 +21,26 @@ public class Doctor extends Person {
 
     private MedicalEspeciality medicalEspeciality;
 
-    public Doctor(int id, String CCO, MedicalEspeciality medicalEspeciality) {
+    public Doctor(int id, String nroDocumento, String firstname, String lastname, Date birthdate,
+                  String phone, String cellphone, String email, String CCO) {
 
+        this.id = id;
+        this.nroDocumento = nroDocumento;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthdate = birthdate;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        this.email = email;
         this.CCO = CCO;
-
-        this.medicalEspeciality = medicalEspeciality;
     }
 
     public String getCCO() {
         return CCO;
     }
 
-    public Doctor setCCO(String CCO) {
+    public void setCCO(String CCO) {
         this.CCO = CCO;
-        return this;
     }
 
     public MedicalEspeciality getMedicalEspeciality() {
@@ -39,16 +49,5 @@ public class Doctor extends Person {
 
     public void setMedicalEspeciality(MedicalEspeciality medicalEspeciality) {
         this.medicalEspeciality = medicalEspeciality;
-    }
-    public static Doctor build(ResultSet resultSet, MedicalEspecialitiesEntity medicalEspecialitiesEntity) {
-        try {
-            return new Doctor(resultSet.getInt("id"),
-                            resultSet.getString("CCO"),
-                    medicalEspecialitiesEntity.findById(resultSet.getInt("medical_id"))
-                    );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }
