@@ -16,37 +16,35 @@ public class IdentityCardsEntity extends BaseEntity{
     }
 
     public List<IdentityCard> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<IdentityCard> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.identity_cards";
+        ResultSet resultSet = null;
         List<IdentityCard> identityCards = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                IdentityCard identityCard = IdentityCard.build(rs);
-                identityCards.add(identityCard);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                identityCards.add(new IdentityCard(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return identityCards;
+
     }
 
+    public int getTurnsCount() {
 
-    public IdentityCard findById(int id) {
-        String statement = "SELECT * FROM IDENTITY_CARDS WHERE id = " +
-                String.valueOf(id);
-        List<IdentityCard> identityCards = findByCriteria(statement);
-        return identityCards != null ? identityCards.get(0) : null;
-    }
+        String sql = "SELECT COUNT(*) AS identityCards_count FROM dbdentalservice.identity_cards";
+        int regionsCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) regionsCount = resultSet.getInt("identityCards_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return regionsCount;
 
-    public IdentityCard findByName(String name) {
-        String statement = "SELECT * FROM IDENTITY_CARDS WHERE description = '" +
-                name + "'";
-        List<IdentityCard> identityCards = findByCriteria(statement);
-        return identityCards != null ? identityCards.get(0) : null;
     }
 
     private int updateByCriteria(String sql) {
@@ -58,20 +56,20 @@ public class IdentityCardsEntity extends BaseEntity{
         return 0;
     }
 
-    public IdentityCard create(int id, String description) {
-        String sql = "INSERT INTO IDENTITY_CARDS(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new IdentityCard(id, description) : null;
+    public boolean create(IdentityCard identityCard) {
+        String sql = "INSERT INTO dbdentalservice.identity_cards(description) " +
+                "VALUES('" + identityCard.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
     }
 
     public boolean update(IdentityCard identityCard) {
-        String sql = "UPDATE IDENTITY_CARDS SET description = '" + identityCard.getDescription() + "," +
+        String sql = "UPDATE dbdentalservice.identity_cards SET description = '" + identityCard.getDescription() + "'" +
                 "' WHERE id = " + String.valueOf(identityCard.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM IDENTITY_CARDS WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.identity_cards WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
 }
