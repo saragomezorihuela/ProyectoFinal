@@ -11,41 +11,36 @@ import java.util.List;
  */
 public class StatesToothEntity extends BaseEntity{
 
-    public StatesToothEntity() {
-        super("STATES_TEETHS");
-    }
-
     public List<StateTooth> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<StateTooth> findByCriteria(String sql) {
-        List<StateTooth> statesTooth = new ArrayList<>();
+        String sql = "SELECT * FROM dbdentalservice.states_teeth";
+        ResultSet resultSet = null;
+        List<StateTooth> stateTeeth = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                StateTooth treatmentType = StateTooth.build(rs);
-                statesTooth.add(treatmentType);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                stateTeeth.add(new StateTooth(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return statesTooth;
+        return stateTeeth;
+
     }
 
-    public StateTooth findById(int id) {
-        String statement = "SELECT * FROM STATES_TEETHS WHERE id = " +
-                String.valueOf(id);
-        List<StateTooth> statesTooth = findByCriteria(statement);
-        return statesTooth != null ? statesTooth.get(0) : null;
-    }
+    public int getStateTeethCount() {
 
-    public StateTooth findByName(String name) {
-        String statement = "SELECT * FROM STATES_TEETHS WHERE description = '" +
-                name + "'";
-        List<StateTooth> statesTooth = findByCriteria(statement);
-        return statesTooth != null ? statesTooth.get(0) : null;
+        String sql = "SELECT COUNT(*) AS stateTeeth_count FROM dbdentalservice.states_teeth";
+        int stateTeethCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) stateTeethCount = resultSet.getInt("stateTeeth_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stateTeethCount;
+
     }
 
     private int updateByCriteria(String sql) {
@@ -57,20 +52,20 @@ public class StatesToothEntity extends BaseEntity{
         return 0;
     }
 
-    public StateTooth create(int id, String description) {
-        String sql = "INSERT INTO STATES_TEETHS(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new StateTooth(id, description) : null;
-    }
+    public boolean create(StateTooth stateTooth) {
+        String sql = "INSERT INTO dbdentalservice.states_teeth(description) " +
+                "VALUES('" + stateTooth.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
 
-    public boolean update(StateTooth statesTooth) {
-        String sql = "UPDATE STATES_TEETHS SET description = '" + statesTooth.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(statesTooth.getId());
+    }
+    public boolean update(StateTooth stateTooth) {
+        String sql = "UPDATE dbdentalservice.states_teeth SET description = '" + stateTooth.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(stateTooth.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM STATES_TEETHS WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.states_teeth WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
 
