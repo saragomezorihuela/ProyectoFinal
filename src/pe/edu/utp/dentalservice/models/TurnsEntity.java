@@ -10,42 +10,36 @@ import java.util.List;
  */
 public class TurnsEntity extends BaseEntity {
 
-    public TurnsEntity() {
-        super("TURNS");
-    }
-
     public List<Turn> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<Turn> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.turns";
+        ResultSet resultSet = null;
         List<Turn> turns = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                Turn turn = Turn.build(rs);
-                turns.add(turn);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                turns.add(new Turn(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return turns;
+
     }
 
+    public int getTurnsCount() {
 
-    public Turn findById(int id) {
-        String statement = "SELECT * FROM TURNS WHERE id = " +
-                String.valueOf(id);
-        List<Turn> turns = findByCriteria(statement);
-        return turns != null ? turns.get(0) : null;
-    }
+        String sql = "SELECT COUNT(*) AS turns_count FROM dbdentalservice.turns";
+        int turnsCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) turnsCount = resultSet.getInt("turns_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return turnsCount;
 
-    public Turn findByName(String name) {
-        String statement = "SELECT * FROM TURNS WHERE description = '" +
-                name + "'";
-        List<Turn> turns = findByCriteria(statement);
-        return turns != null ? turns.get(0) : null;
     }
 
     private int updateByCriteria(String sql) {
@@ -57,20 +51,21 @@ public class TurnsEntity extends BaseEntity {
         return 0;
     }
 
-    public Turn create(int id, String description) {
-        String sql = "INSERT INTO TURNS(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new Turn(id, description) : null;
-    }
+    public boolean create(Turn turn) {
+        String sql = "INSERT INTO dbdentalservice.turns(description) " +
+                "VALUES('" + turn.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
 
-    public boolean update(Country country) {
-        String sql = "UPDATE TURNS SET description = '" + country.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(country.getId());
+    }
+    public boolean update(Turn turn) {
+        String sql = "UPDATE dbdentalservice.turns SET description = '" + turn.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(turn.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM TURNS WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.turns WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
+
 }
