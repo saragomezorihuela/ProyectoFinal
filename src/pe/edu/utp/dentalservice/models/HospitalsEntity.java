@@ -11,41 +11,48 @@ import java.util.List;
  */
 public class HospitalsEntity extends BaseEntity{
 
-    public HospitalsEntity() {
-        super("hospitals");
-    }
-
     public List<Hospital> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<Hospital> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.hospitals";
+        ResultSet resultSet = null;
         List<Hospital> hospitals = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                Hospital hospital = Hospital.build(rs);
-                hospitals.add(hospital);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                hospitals.add(new Hospital(resultSet.getInt("id"),
+                        resultSet.getString("ruc"),
+                        resultSet.getString("business_name"),
+                        resultSet.getString("address"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("email")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return hospitals;
+
     }
 
     public Hospital findById(int id) {
-        String statement = "SELECT * FROM hospitals WHERE id = " +
-                String.valueOf(id);
-        List<Hospital> hospitals = findByCriteria(statement);
-        return hospitals != null ? hospitals.get(0) : null;
-    }
 
-    public Hospital findByName(String name) {
-        String statement = "SELECT * FROM hospitals WHERE business_name = '" +
-                name + "'";
-        List<Hospital> hospitals = findByCriteria(statement);
-        return hospitals != null ? hospitals.get(0) : null;
+        String sql = "SELECT * FROM dbdentalservice.hospitals WHERE id = " + String.valueOf(id);
+
+        List<Hospital> hospitals = new ArrayList<>();
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                hospitals.add(new Hospital(resultSet.getInt("id"),
+                        resultSet.getString("ruc"),
+                        resultSet.getString("business_name"),
+                        resultSet.getString("address"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("email")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hospitals.get(0);
+
     }
 
     private int updateByCriteria(String sql) {
@@ -57,24 +64,39 @@ public class HospitalsEntity extends BaseEntity{
         return 0;
     }
 
-    public Hospital create(int id, String ruc, String businessName, String address, String phone, String email) {
-        String sql = "INSERT INTO hospitals(id, ruc, business_name, address, phone, email) " +
-                "VALUES(" + String.valueOf(id) + ", '" + ruc + "', '" + businessName + "', '" + address + "', '" + phone + "', '" + email + "')";
-        return updateByCriteria(sql) > 0 ? new Hospital(id, ruc,businessName,address,phone,email) : null;
+    public boolean create(Hospital hospital) {
+        String sql = "INSERT INTO dbdentalservice.hospitals(ruc, business_name, address, phone, email) " +
+                "VALUES('" + hospital.getRuc() + "', '" + hospital.getBusinessName() + "', '" +
+                hospital.getAddress() + "', '" + hospital.getPhone() + "', '" +
+                hospital.getEmail() + "')";
+        return updateByCriteria(sql) > 0;
     }
 
     public boolean update(Hospital hospital) {
-        String sql = "UPDATE hospitals SET ruc = '" + hospital.getRuc() + "," +
-                            "business_name = '" + hospital.getBusinessName() + "," +
-                            "address = '" + hospital.getAddress() + "," +
-                            "phone = '" + hospital.getPhone() + ","+
-                            "email = '" + hospital.getEmail() +
-                "' WHERE id = " + String.valueOf(hospital.getId());
+        String sql = "UPDATE dbdentalservice.hospitals SET ruc = '" + hospital.getRuc() + "'," +
+                "business_name = '" + hospital.getBusinessName() + "'," +
+                "address = '" + hospital.getAddress() + "'," +
+                "phone = '" + hospital.getPhone() + "',"+
+                "email = '" + hospital.getEmail() + "' "+
+                "WHERE id = " + String.valueOf(hospital.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM hospitals WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.hospitals WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
+
+    public int getHospitalsCount() {
+        String sql = "SELECT COUNT(*) AS hospitals_count FROM dbdentalservice.hospitals";
+        int hospitalsCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) hospitalsCount = resultSet.getInt("hospitals_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hospitalsCount;
+    }
+   
 }
