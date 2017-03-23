@@ -11,42 +11,36 @@ import java.util.List;
  */
 public class CountriesEntity extends BaseEntity{
 
-    public CountriesEntity() {
-        super("COUNTRIES");
-    }
-
     public List<Country> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<Country> findByCriteria(String sql) {
-        List<Country> countries = new ArrayList<>();
+        String sql = "SELECT * FROM dbdentalservice.countries";
+        ResultSet resultSet = null;
+        List<Country> turns = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                Country country = Country.build(rs);
-                countries.add(country);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                turns.add(new Country(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return countries;
+        return turns;
+
     }
 
+    public int getCountriesCount() {
 
-    public Country findById(int id) {
-        String statement = "SELECT * FROM COUNTRIES WHERE id = " +
-                String.valueOf(id);
-        List<Country> countries = findByCriteria(statement);
-        return countries != null ? countries.get(0) : null;
-    }
+        String sql = "SELECT COUNT(*) AS countries_count FROM dbdentalservice.countries";
+        int countriesCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) countriesCount = resultSet.getInt("countries_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return countriesCount;
 
-    public Country findByName(String name) {
-        String statement = "SELECT * FROM COUNTRIES WHERE description = '" +
-                name + "'";
-        List<Country> countries = findByCriteria(statement);
-        return countries != null ? countries.get(0) : null;
     }
 
     private int updateByCriteria(String sql) {
@@ -58,20 +52,21 @@ public class CountriesEntity extends BaseEntity{
         return 0;
     }
 
-    public Country create(int id, String description) {
-        String sql = "INSERT INTO COUNTRIES(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new Country(id, description) : null;
-    }
+    public boolean create(Country country) {
+        String sql = "INSERT INTO dbdentalservice.countries(description) " +
+                "VALUES('" + country.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(Country country) {
-        String sql = "UPDATE COUNTRIES SET description = '" + country.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(country.getId());
+        String sql = "UPDATE dbdentalservice.countries SET description = '" + country.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(country.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM COUNTRIES WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.countries WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
+
 }
