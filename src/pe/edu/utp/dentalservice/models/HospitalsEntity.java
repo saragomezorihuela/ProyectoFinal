@@ -98,5 +98,5 @@ public class HospitalsEntity extends BaseEntity{
         }
         return hospitalsCount;
     }
-   
+
 }
