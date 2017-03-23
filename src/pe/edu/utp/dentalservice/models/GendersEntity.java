@@ -11,41 +11,36 @@ import java.util.List;
  */
 public class GendersEntity extends BaseEntity{
 
-    public GendersEntity() {
-        super("genders");
-    }
-
     public List<Gender> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<Gender> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.genders";
+        ResultSet resultSet = null;
         List<Gender> genders = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                Gender gender = Gender.build(rs);
-                genders.add(gender);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                genders.add(new Gender(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return genders;
+
     }
 
-    public Gender findById(int id) {
-        String statement = "SELECT * FROM genders WHERE id = " +
-                String.valueOf(id);
-        List<Gender> genders = findByCriteria(statement);
-        return genders != null ? genders.get(0) : null;
-    }
+    public int getGendersCount() {
 
-    public Gender findByName(String name) {
-        String statement = "SELECT * FROM genders WHERE description = '" +
-                name + "'";
-        List<Gender> genders = findByCriteria(statement);
-        return genders != null ? genders.get(0) : null;
+        String sql = "SELECT COUNT(*) AS genders_count FROM dbdentalservice.genders";
+        int regionsCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) regionsCount = resultSet.getInt("genders_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return regionsCount;
+
     }
 
     private int updateByCriteria(String sql) {
@@ -57,20 +52,20 @@ public class GendersEntity extends BaseEntity{
         return 0;
     }
 
-    public Gender create(int id, String description) {
-        String sql = "INSERT INTO genders(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new Gender(id, description) : null;
-    }
+    public boolean create(Gender gender) {
+        String sql = "INSERT INTO dbdentalservice.genders(description) " +
+                "VALUES('" + gender.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(Gender gender) {
-        String sql = "UPDATE genders SET description = '" + gender.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(gender.getId());
+        String sql = "UPDATE dbdentalservice.genders SET description = '" + gender.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(gender.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM genders WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.genders WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
 }
