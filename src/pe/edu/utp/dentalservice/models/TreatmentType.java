@@ -1,5 +1,7 @@
 package pe.edu.utp.dentalservice.models;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -7,7 +9,8 @@ import java.util.Date;
 /**
  * Created by DE LA CRUZ on 04/03/2017.
  */
-
+@ManagedBean
+@RequestScoped
 public class TreatmentType {
 
     private int id;
@@ -24,29 +27,16 @@ public class TreatmentType {
         return id;
     }
 
-    public TreatmentType setId(int id){
+    public void setId(int id){
         this.id = id;
-        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public TreatmentType setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public static TreatmentType build(ResultSet resultSet) {
-        try {
-            return new TreatmentType(resultSet.getInt("id"),
-                    resultSet.getString("description"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
     }
 
 }
