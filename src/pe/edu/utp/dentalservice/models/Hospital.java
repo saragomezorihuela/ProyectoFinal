@@ -1,5 +1,7 @@
 package pe.edu.utp.dentalservice.models;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -7,6 +9,8 @@ import java.util.Date;
 /**
  * Created by SARA SHEENA on 04/03/2017.
  */
+@ManagedBean
+@RequestScoped
 public class Hospital
 {
 
@@ -37,70 +41,48 @@ public class Hospital
         return id;
     }
 
-    public Hospital setId(int id){
+    public void setId(int id){
         this.id = id;
-        return this;
     }
 
     public String getRuc() {
         return ruc;
     }
 
-    public Hospital setRuc(String ruc) {
+    public void setRuc(String ruc) {
         this.ruc = ruc;
-        return this;
     }
 
     public String getBusinessName() {
         return businessName;
     }
 
-    public Hospital setBusinessName(String businessName) {
+    public void setBusinessName(String businessName) {
         this.businessName = businessName;
-        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public Hospital setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
-        return this;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public Hospital setPhone(String phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
-        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public Hospital setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
-    }
-
-
-    public static Hospital build(ResultSet resultSet) {
-        try {
-            return new Hospital(resultSet.getInt("id"),
-                                resultSet.getString("ruc"),
-                                resultSet.getString("business_name"),
-                                resultSet.getString("address"),
-                                resultSet.getString("phone"),
-                                resultSet.getString("email"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
     }
 
 }
