@@ -49,15 +49,4 @@ public class District {
         this.province = province;
     }
 
-    public static District build(ResultSet resultSet, ProvincesEntity provincesEntity) {
-        try {
-            return new District(resultSet.getInt("id"),
-                    resultSet.getString("description"),
-                    provincesEntity.findById(resultSet.getInt("province_id")));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 }
