@@ -12,9 +12,9 @@ public class PatientsEntity extends BaseEntity{
 
     public List<Patient> findAll() {
 
-        String sql = "SELECT people.id,nroDocumento,first_name,last_name,birth_date,phone,cellphone,email,relative_name,relative_phone " +
+        String sql = "SELECT id,nroDocumento,first_name,last_name,birth_date,phone,cellphone,email,relative_name,relative_phone " +
                 "FROM dbdentalservice.people INNER JOIN dbdentalservice.patients ON " +
-                " people.id = patients.id";
+                " people.id = patients.id_patient";
         ResultSet resultSet = null;
         List<Patient> patients = new ArrayList<>();
         try {
@@ -24,7 +24,7 @@ public class PatientsEntity extends BaseEntity{
                         resultSet.getString("nroDocumento"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getDate("birth_date"),
+                        resultSet.getString("birth_date"),
                         resultSet.getString("phone"),
                         resultSet.getString("cellphone"),
                         resultSet.getString("email"),
@@ -63,7 +63,8 @@ public class PatientsEntity extends BaseEntity{
 
     public boolean create(Patient patient) {
         String sql = "INSERT INTO dbdentalservice.patients(id,relative_name,relative_phone) " +
-                "VALUES('"  + String.valueOf(patient.getId()) + "','"+  patient.getRelativename() + "','"+  patient.getRelativephone() + "')";
+                //"VALUES(3,'" +  patient.getRelativename() + "','" +  patient.getRelativephone() + "')";
+                "VALUES("  + String.valueOf(patient.getId()) + ",'" +  patient.getRelativename() + "','" +  patient.getRelativephone() + "')";
         return updateByCriteria(sql) > 0;
 
     }
