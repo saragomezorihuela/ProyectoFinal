@@ -72,17 +72,4 @@ public class Treatment {
         this.treatmentType = treatmentType;
     }
 
-    public static Treatment build(ResultSet resultSet, TreatmentTypesEntity treatmentTypesEntity) {
-        try {
-            return new Treatment(resultSet.getInt("id"),
-                    resultSet.getString("description"),
-                    resultSet.getFloat("cost"),
-                    resultSet.getInt("sessioncount"),
-                    treatmentTypesEntity.findById(resultSet.getInt("type_treatment_id")));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 }
