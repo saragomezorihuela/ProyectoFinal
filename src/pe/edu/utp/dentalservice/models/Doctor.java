@@ -13,15 +13,12 @@ import java.util.Date;
 @RequestScoped
 public class Doctor extends People {
 
+    private int id_doctor;
     private String CCO;
-
-    public Doctor() {
-        super();
-    }
 
     private MedicalEspeciality medicalEspeciality;
 
-    public Doctor(int id, String nroDocumento, String firstname, String lastname, Date birthdate,
+    public Doctor(int id, String nroDocumento, String firstname, String lastname, String birthdate,
                   String phone, String cellphone, String email, String CCO) {
 
         this.id = id;
@@ -33,6 +30,17 @@ public class Doctor extends People {
         this.cellphone = cellphone;
         this.email = email;
         this.CCO = CCO;
+    }
+
+    public Doctor() {
+    }
+
+    public int getId_doctor() {
+        return id_doctor;
+    }
+
+    public void setId_doctor(int id_doctor) {
+        this.id_doctor = id_doctor;
     }
 
     public String getCCO() {
@@ -50,4 +58,5 @@ public class Doctor extends People {
     public void setMedicalEspeciality(MedicalEspeciality medicalEspeciality) {
         this.medicalEspeciality = medicalEspeciality;
     }
+
 }
