@@ -11,43 +11,38 @@ import java.util.List;
  */
 public class DepartmentsEntity extends BaseEntity{
 
-    private CountriesEntity countriesEntity;
-
-    public DepartmentsEntity() {
-        super("DEPARTMENTS");
-    }
+    //private CountriesEntity countriesEntity;
 
     public List<Department> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<Department> findByCriteria(String sql) {
+        String sql = "SELECT id, description FROM dbdentalservice.departaments WHERE country_id = 1";
+        ResultSet resultSet = null;
         List<Department> departments = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                Department department = Department.build(rs, getCountriesEntity());
-                departments.add(department);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                departments.add(new Department(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return departments;
+
     }
 
-    public Department findById(int id) {
-        String statement = "SELECT * FROM DEPARTMENTS WHERE id = " +
-                String.valueOf(id);
-        List<Department> departments = findByCriteria(statement);
-        return departments != null ? departments.get(0) : null;
-    }
+    public int getDepartmentsCount() {
 
-    public Department findByName(String name) {
-        String statement = "SELECT * FROM COUNTRIES WHERE description = '" +
-                name + "'";
-        List<Department> departments = findByCriteria(statement);
-        return departments != null ? departments.get(0) : null;
+        String sql = "SELECT COUNT(*) AS turns_count FROM dbdentalservice.departaments";
+        int departmentsCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) departmentsCount = resultSet.getInt("departments_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return departmentsCount;
+
     }
 
     private int updateByCriteria(String sql) {
@@ -59,28 +54,21 @@ public class DepartmentsEntity extends BaseEntity{
         return 0;
     }
 
-    public Department create(int id, String description, int countryId) {
-        String sql = "INSERT INTO DEPARTMENTS(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new Department(id, description, getCountriesEntity().findById(countryId)) : null;
-    }
+    public boolean create(Department department, Country country) {
+        String sql = "INSERT INTO dbdentalservice.departaments(description, country_id) " +
+                "VALUES('" + department.getDescription() + "'," + String.valueOf(country.getId()) + ")";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(Department department) {
-        String sql = "UPDATE DEPARTMENTS SET description = '" + department.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(department.getId());
+        String sql = "UPDATE dbdentalservice.departaments SET description = '" + department.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(department.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM DEPARTMENTS WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.departaments WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
 
-    public CountriesEntity getCountriesEntity() {
-        return countriesEntity;
-    }
-
-    public void setCountriesEntity(CountriesEntity countriesEntity) {
-        this.countriesEntity = countriesEntity;
-    }
 }
