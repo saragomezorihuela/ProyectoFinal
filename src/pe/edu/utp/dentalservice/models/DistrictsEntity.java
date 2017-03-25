@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Alex Aguilar  on 06/03/2017.
  */
 public class DistrictsEntity extends BaseEntity {
-
+/*
     private ProvincesEntity provincesEntity;
 
     public DistrictsEntity() {
@@ -82,5 +82,5 @@ public class DistrictsEntity extends BaseEntity {
     public void setProvincesEntity(ProvincesEntity provincesEntity) {
         this.provincesEntity = provincesEntity;
     }
-
+*/
 }
