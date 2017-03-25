@@ -19,7 +19,7 @@ public class People {
     protected String nroDocumento;
     protected String firstname;
     protected String lastname;
-    protected Date birthdate;
+    protected String birthdate;
     protected String phone;
     protected String cellphone;
     protected String email;
@@ -31,10 +31,8 @@ public class People {
     private IdentityCard identityCard;
     private District district;
 
-    public People(int id, String nroDocumento, String firstname, String lastname, Date birthdate,
-                  String phone, String cellphone, String email,
-                  Hospital hospital, Gender gender, BloodType bloodType,
-                  IdentityCard identityCard, District district) {
+    public People(int id, String nroDocumento, String firstname, String lastname, String birthdate,
+                  String phone, String cellphone, String email) {
 
         this.id = id;
         this.nroDocumento = nroDocumento;
@@ -44,13 +42,6 @@ public class People {
         this.phone = phone;
         this.cellphone = cellphone;
         this.email = email;
-
-        this.hospital = hospital;
-        this.gender = gender;
-        this.bloodType = bloodType;
-        this.identityCard = identityCard;
-        this.district = district;
-
     }
 
     public People() {
@@ -88,11 +79,11 @@ public class People {
         this.lastname = lastname;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
