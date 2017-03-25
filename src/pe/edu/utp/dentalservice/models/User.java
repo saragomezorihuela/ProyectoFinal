@@ -14,7 +14,7 @@ public class User {
     private String state;
 
     private Profile profile;
-    private Person person;
+    private People people;
 
     public User(int id, String name, String password, String state, Profile profile) {
 
@@ -67,12 +67,12 @@ public class User {
         return this;
     }
 
-    public Person getPerson() {
-        return person;
+    public People getPeople() {
+        return people;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPeople(People people) {
+        this.people = people;
     }
 
     public Profile getProfile() {
