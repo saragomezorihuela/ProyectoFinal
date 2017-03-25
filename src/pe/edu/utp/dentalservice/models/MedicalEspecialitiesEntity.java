@@ -10,42 +10,36 @@ import java.util.List;
  */
 public class MedicalEspecialitiesEntity extends BaseEntity{
 
-    public MedicalEspecialitiesEntity() {
-        super("MEDICALESPECIALITIES");
-    }
-
     public List<MedicalEspeciality> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<MedicalEspeciality> findByCriteria(String sql) {
-        List<MedicalEspeciality> medicalEspecialities = new ArrayList<>();
+        String sql = "SELECT * FROM dbdentalservice.medical_especialities";
+        ResultSet resultSet = null;
+        List<MedicalEspeciality> turns = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                MedicalEspeciality country = MedicalEspeciality.build(rs);
-                medicalEspecialities.add(country);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                turns.add(new MedicalEspeciality(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return medicalEspecialities;
+        return turns;
+
     }
 
+    public int getMedicalEspecialitiesCount() {
 
-    public MedicalEspeciality findById(int id) {
-        String statement = "SELECT * FROM MEDICALESPECIALITIES WHERE id = " +
-                String.valueOf(id);
-        List<MedicalEspeciality> medicalEspecialities = findByCriteria(statement);
-        return medicalEspecialities != null ? medicalEspecialities.get(0) : null;
-    }
+        String sql = "SELECT COUNT(*) AS medicalEspecialities_count FROM dbdentalservice.medical_especialities";
+        int medicalEspecialitiesCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) medicalEspecialitiesCount = resultSet.getInt("medicalEspecialities_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return medicalEspecialitiesCount;
 
-    public MedicalEspeciality findByName(String name) {
-        String statement = "SELECT * FROM MEDICALESPECIALITIES WHERE description = '" +
-                name + "'";
-        List<MedicalEspeciality> medicalEspecialities = findByCriteria(statement);
-        return medicalEspecialities != null ? medicalEspecialities.get(0) : null;
     }
 
     private int updateByCriteria(String sql) {
@@ -57,20 +51,21 @@ public class MedicalEspecialitiesEntity extends BaseEntity{
         return 0;
     }
 
-    public MedicalEspeciality create(int id, String description) {
-        String sql = "INSERT INTO COUNTRIES(id, description) " +
-                "VALUES(" + String.valueOf(id) + ", '" + description + "')";
-        return updateByCriteria(sql) > 0 ? new MedicalEspeciality(id, description) : null;
-    }
+    public boolean create(MedicalEspeciality medicalEspeciality) {
+        String sql = "INSERT INTO dbdentalservice.medical_especialities(description) " +
+                "VALUES('" + medicalEspeciality.getDescription() + "')";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(MedicalEspeciality medicalEspeciality) {
-        String sql = "UPDATE COUNTRIES SET description = '" + medicalEspeciality.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(medicalEspeciality.getId());
+        String sql = "UPDATE dbdentalservice.medical_especialities SET description = '" + medicalEspeciality.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(medicalEspeciality.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM COUNTRIES WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.medical_especialities WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
+
 }
