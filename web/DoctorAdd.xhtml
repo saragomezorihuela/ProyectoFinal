@@ -32,11 +32,19 @@
                                        itemLabel="#{identityCard.description}" />
                     </h:selectOneMenu>
                     <h:outputLabel value="Nro. de Documento:" /><h:inputText id="nroDocumento" value="#{people.nroDocumento}"/>
+                    <h:outputLabel value="COO:" /><h:inputText id="coo" value="#{doctor.CCO}"/>
+                    <h:outputLabel value="Especialidad Médica:" />
+                    <h:selectOneMenu  id="cboMedicalEspeciality" value="#{medicalEspeciality.id}">
+                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
+                        <f:selectItems value="#{medicalEspecialityBean.medicalEspecialities}"
+                                       var="medicalEspeciality" itemValue="#{medicalEspeciality.id}"
+                                       itemLabel="#{medicalEspeciality.description}" />
+                    </h:selectOneMenu>
                     <h:outputLabel value="Nombres:" /><h:inputText id="first_name" value="#{people.firstname}" style="width: 250px"/>
                     <h:outputLabel value="Apellidos:" /><h:inputText id="last_name" value="#{people.lastname}" style="width: 250px"/>
                     <h:outputLabel value="Fecha de Nacimiento:" />
                     <h:inputText id="birth_date" value="#{people.birthdate}">
-                    <f:convertDateTime pattern="mm/DD/yyyy" />
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:inputText>
                     <h:outputLabel value="Sexo:" />
                     <h:selectOneMenu  id="cboGender" value="#{gender.id}">
@@ -47,51 +55,17 @@
                     </h:selectOneMenu>
                     <h:outputLabel value="Teléfono:" /><h:inputText id="phone" value="#{people.phone}"/>
                     <h:outputLabel value="Celular:" /><h:inputText id="cellphone" value="#{people.cellphone}"/>
-                    <h:outputLabel value="Dirección:"/>
-                    <h:inputText id="address" value="#{people.address}" style="width: 250px"/>
-                    <h:outputLabel value="Departamento:" />
-                    <h:selectOneMenu  id="cboDepartment" value="#{department.id}">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{departmentBean.departments}"
-                                       var="department" itemValue="#{department.id}"
-                                       itemLabel="#{department.description}" />
-                    </h:selectOneMenu>
-                    <h:outputLabel value="Provincia:" />
-                    <h:selectOneMenu  id="cboProvince" value="#{identityCard.id}">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{identityCardBean.identityCards}"
-                                       var="identityCard" itemValue="#{identityCard.id}"
-                                       itemLabel="#{identityCard.description}" />
-                    </h:selectOneMenu>
-                    <h:outputLabel value="Distrito:" />
-                    <h:selectOneMenu  id="cboDistrict" value="#{identityCard.id}">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{identityCardBean.identityCards}"
-                                       var="identityCard" itemValue="#{identityCard.id}"
-                                       itemLabel="#{identityCard.description}" />
-                    </h:selectOneMenu>
-                    <h:outputLabel value="Pariente Cercano:"/>
-                    <h:inputText id="relative_name" value="#{patient.relativename}" style="width: 250px"/>
-                    <h:outputLabel value="Telf. pariente Cercano:"/>
-                    <h:inputText id="phone_name" value="#{patient.relativephone}" style="width: 250px"/>
-                    <h:outputLabel value="Turno:" />
-                    <h:selectOneMenu  id="cboTurn" value="#{identityCard.id}">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{identityCardBean.identityCards}"
-                                       var="identityCard" itemValue="#{identityCard.id}"
-                                       itemLabel="#{identityCard.description}" />
-                    </h:selectOneMenu>
+                    <h:outputLabel value="Email:"/><h:inputText id="email" value="#{people.email}" style="width: 250px"/>
+                    <h:outputLabel value="Dirección:"/><h:inputText id="address" value="#{people.address}" style="width: 250px"/>
                     <h:outputLabel value="Horario:" />
-                    <h:selectOneMenu  id="cboSchedule" value="#{identityCard.id}">
+                    <h:selectOneMenu  id="cboSchedule" value="#{schedule.id}">
                         <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{identityCardBean.identityCards}"
-                                       var="identityCard" itemValue="#{identityCard.id}"
-                                       itemLabel="#{identityCard.description}" />
+                        <f:selectItems value="#{scheduleBean.schedules}"
+                                       var="schedule" itemValue="#{schedule.id}"
+                                       itemLabel="#{schedule.schedule}" />
                     </h:selectOneMenu>
-                    <h:outputLabel value="COO:" /><h:inputText id="coo" value="#{doctor.CCO}"/>
-                    <h:outputLabel value="" /><h:outputLabel value="" />
                 </h:panelGrid>
-                <h:commandButton value="Grabar" action="#{identityCardBean.add()}" styleClass="buttonGrilla">
+                <h:commandButton value="Grabar" action="#{doctorBean.add(people,doctor,identityCard,gender,medicalEspeciality)}" styleClass="buttonGrilla">
                 </h:commandButton>
                 <h:commandButton value="Cancelar" action="DoctorList" styleClass="buttonGrilla">
                 </h:commandButton>
