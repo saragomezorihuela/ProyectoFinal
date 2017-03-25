@@ -43,17 +43,4 @@ public class Odontogram {
         return this;
     }
 
-    public static Odontogram build(ResultSet resultSet, ToothsEntity toothsEntity, StatesToothEntity statesToothEntity) {
-        try {
-            return new Odontogram(resultSet.getInt("id"),
-                    resultSet.getString("observation"),
-                    toothsEntity.findById(resultSet.getInt("tooth_id")),
-                    statesToothEntity.findById(resultSet.getInt("state_tooth_id")));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
 }
