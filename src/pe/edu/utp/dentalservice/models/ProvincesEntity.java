@@ -10,43 +10,38 @@ import java.util.List;
  */
 public class ProvincesEntity extends BaseEntity{
 
-    private DepartmentsEntity departmentsEntity;
+    Department department;
 
-    public ProvincesEntity() {
-        super("PROVINCES");
-    }
+    public List<Province> findAll(int departmentId) {
 
-    public List<Province> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
-
-    private List<Province> findByCriteria(String sql) {
+        String sql = "SELECT id, description FROM dbdentalservice.provinces WHERE department_id = " + String.valueOf(departmentId);
+        ResultSet resultSet = null;
         List<Province> provinces = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                Province province = Province.build(rs, getDepartmentsEntity());
-                provinces.add(province);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                provinces.add(new Province(resultSet.getInt("id"),
+                        resultSet.getString("description")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return provinces;
+
     }
 
-    public Province findById(int id) {
-        String statement = "SELECT * FROM PROVINCES WHERE id = " +
-                String.valueOf(id);
-        List<Province> provinces = findByCriteria(statement);
-        return provinces != null ? provinces.get(0) : null;
-    }
+    public int getProvincesCount() {
 
-    public Province findByName(String name) {
-        String statement = "SELECT * FROM PROVINCES WHERE description = '" +
-                name + "'";
-        List<Province> provinces = findByCriteria(statement);
-        return provinces != null ? provinces.get(0) : null;
+        String sql = "SELECT COUNT(*) AS turns_count FROM dbdentalservice.provinces WHERE department_id = " + String.valueOf(department.getId());
+        int provincesCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) provincesCount = resultSet.getInt("provinces_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return provincesCount;
+
     }
 
     private int updateByCriteria(String sql) {
@@ -58,29 +53,20 @@ public class ProvincesEntity extends BaseEntity{
         return 0;
     }
 
-    public Province create(int id, String description, int department_id) {
-        String sql = "INSERT INTO PROVINCES(id, department_id, description) " +
-                "VALUES(" + String.valueOf(id) + ", " + String.valueOf(department_id) + ", '" + description + "',)";
-        return updateByCriteria(sql) > 0 ? new Province(id, description, getDepartmentsEntity().findById(department_id)) : null;
-    }
+    public boolean create(Province province) {
+        String sql = "INSERT INTO dbdentalservice.provinces(description, department_id) " +
+                "VALUES('" + department.getDescription() + "'," + String.valueOf(province.getId()) + ")";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(Province province) {
-        String sql = "UPDATE PROVINCES SET description = '" + province.getDescription() + "," +
-                "' WHERE id = " + String.valueOf(province.getId());
+        String sql = "UPDATE dbdentalservice.provinces SET description = '" + province.getDescription() + "'" +
+                " WHERE id = " + String.valueOf(province.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM PROVINCES WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.provinces WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
-
-    public DepartmentsEntity getDepartmentsEntity() {
-        return departmentsEntity;
-    }
-
-    public void setDepartmentsEntity(DepartmentsEntity departmentsEntity) {
-        this.departmentsEntity = departmentsEntity;
-    }
-
 }
