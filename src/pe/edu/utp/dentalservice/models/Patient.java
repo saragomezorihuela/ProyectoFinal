@@ -11,11 +11,11 @@ import java.util.Date;
 @RequestScoped
 public class Patient extends People {
 
-    private int id;
+    private int id_patient;
     private String relativename;
     private String relativephone;
 
-    public Patient(int id, String nroDocumento, String firstname, String lastname, Date birthdate,
+    public Patient(int id, String nroDocumento, String firstname, String lastname, String birthdate,
                    String phone, String cellphone, String email, String relativename, String relativephone) {
 
         this.id = id;
@@ -31,6 +31,14 @@ public class Patient extends People {
     }
 
     public Patient() {
+    }
+
+    public int getId_patient() {
+        return id_patient;
+    }
+
+    public void setId_patient(int id_patient) {
+        this.id_patient = id_patient;
     }
 
     public String getRelativename() {
