@@ -11,43 +11,37 @@ import java.util.List;
  */
 public class SchedulesEntity extends BaseEntity{
 
-    private TurnsEntity turnsEntity;
-
-    public SchedulesEntity() {
-        super("SCHEDULES");
-    }
-
     public List<Schedule> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<Schedule> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.schedules";
+        ResultSet resultSet = null;
         List<Schedule> schedules = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                Schedule schedule = Schedule.build(rs, getTurnsEntity());
-                schedules.add(schedule);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                schedules.add(new Schedule(resultSet.getInt("id"),
+                        resultSet.getString("start"),
+                        resultSet.getString("finish")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return schedules;
+
     }
 
-    public Schedule findById(int id) {
-        String statement = "SELECT * FROM SCHEDULES WHERE id = " +
-                String.valueOf(id);
-        List<Schedule> schedules = findByCriteria(statement);
-        return schedules != null ? schedules.get(0) : null;
-    }
+    public int getSchedulesCount() {
 
-    public Schedule findByName(String name) {
-        String statement = "SELECT * FROM SCHEDULES WHERE observation = '" +
-                name + "'";
-        List<Schedule> schedules = findByCriteria(statement);
-        return schedules != null ? schedules.get(0) : null;
+        String sql = "SELECT COUNT(*) AS schedules_count FROM dbdentalservice.schedules";
+        int schedulesCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) schedulesCount = resultSet.getInt("schedules_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return schedulesCount;
+
     }
 
     private int updateByCriteria(String sql) {
@@ -59,30 +53,22 @@ public class SchedulesEntity extends BaseEntity{
         return 0;
     }
 
-    public Schedule create(int id, Date start, Date finish, int turn_id) {
-        String sql = "INSERT INTO SCHEDULES(id, turn_id, start, finish) " +
-                "VALUES(" + String.valueOf(id) + ", " + String.valueOf(turn_id) + ", '" + start + "', '" + finish + "')";
-        return updateByCriteria(sql) > 0 ? new Schedule(id, start, finish, getTurnsEntity().findById(turn_id)) : null;
-    }
+    public boolean create(Schedule schedule, Turn turn) {
+        String sql = "INSERT INTO dbdentalservice.schedules(start,finish,idTurn) " +
+                "VALUES('" + schedule.getStart() + "','" + schedule.getFinish() + "'," + String.valueOf(turn.getId()) + ")";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(Schedule schedule) {
-        String sql = "UPDATE SCHEDULES SET start = '" + schedule.getStart() + "," +
-                    "finish = '" + schedule.getFinish() +
-                "' WHERE id = " + String.valueOf(schedule.getId());
+        String sql = "UPDATE dbdentalservice.schedules SET start = '" + schedule.getStart() + "','" +
+                "finish = '" + schedule.getFinish() + "'" +
+                " WHERE id = " + String.valueOf(schedule.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM SCHEDULES WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.schedules WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
-    }
-
-    public TurnsEntity getTurnsEntity() {
-        return turnsEntity;
-    }
-
-    public void setTurnsEntity(TurnsEntity turnsEntity) {
-        this.turnsEntity = turnsEntity;
     }
 
 }
