@@ -1,5 +1,7 @@
 package pe.edu.utp.dentalservice.models;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
@@ -7,20 +9,22 @@ import java.sql.Date;
 /**
      * Created by Jonathan Rojas on 07/03/2017.
  */
+
+@ManagedBean
+@RequestScoped
 public class Schedule {
 
     private int id;
-    private Date start;
-    private Date finish;
+    private String start;
+    private String finish;
 
     private Turn turn;
 
-    public Schedule(int id, Date start, Date finish, Turn turn) {
+    public Schedule(int id, String start, String finish) {
         this.id = id;
         this.start = start;
         this.finish = finish;
 
-        this.turn = turn;
     }
 
     public Schedule() {
@@ -30,27 +34,28 @@ public class Schedule {
         return id;
     }
 
-    public Schedule setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return this;
     }
 
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public Schedule setStart(Date start) {
+    public void setStart(String start) {
         this.start = start;
-        return this;
     }
 
-    public Date getFinish() {
+    public String getFinish() {
         return finish;
     }
 
-    public Schedule setFinish(Date finish) {
+    public void setFinish(String finish) {
         this.finish = finish;
-        return this;
+    }
+
+    public String getSchedule() {
+        return start + " - " + finish;
     }
 
     public Turn getTurn() {
@@ -60,18 +65,5 @@ public class Schedule {
     public void setTurn(Turn turn) {
         this.turn = turn;
     }
-
-    public static Schedule build(ResultSet resultSet, TurnsEntity turnsEntity) {
-        try {
-            return new Schedule(resultSet.getInt("id"),
-                    resultSet.getDate("start"),
-                    resultSet.getDate("finish"),
-                    turnsEntity.findById(resultSet.getInt("turn_id")));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
 }
