@@ -13,9 +13,9 @@ public class DoctorsEntity  extends BaseEntity{
 
     public List<Doctor> findAll() {
 
-        String sql = "SELECT people.id,nroDocumento,cco,first_name,last_name,birth_date,phone,cellphone,email " +
+        String sql = "SELECT id,nroDocumento,cco,first_name,last_name,birth_date,phone,cellphone,email " +
                 "FROM dbdentalservice.people INNER JOIN dbdentalservice.doctors ON " +
-                " people.id = doctors.id";
+                " people.id = doctors.id_doctor";
         ResultSet resultSet = null;
         List<Doctor> doctors = new ArrayList<>();
         try {
@@ -23,13 +23,13 @@ public class DoctorsEntity  extends BaseEntity{
             while(resultSet.next()) {
                 doctors.add(new Doctor(resultSet.getInt("id"),
                         resultSet.getString("nroDocumento"),
+                        resultSet.getString("cco"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getDate("birth_date"),
+                        resultSet.getString("birth_date"),
                         resultSet.getString("phone"),
                         resultSet.getString("cellphone"),
-                        resultSet.getString("email"),
-                        resultSet.getString("cco")));
+                        resultSet.getString("email")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,9 +61,9 @@ public class DoctorsEntity  extends BaseEntity{
         return 0;
     }
 
-    public boolean create(Doctor doctor) {
-        String sql = "INSERT INTO dbdentalservice.doctors(id,CCO) " +
-                "VALUES('"  + String.valueOf(doctor.getId()) + "','"+  doctor.getCCO() + "')";
+    public boolean create(Doctor doctor, MedicalEspeciality medicalEspeciality) {
+        String sql = "INSERT INTO dbdentalservice.doctors(id_doctor, CCO, medical_id) " +
+                "VALUES("  + String.valueOf(doctor.getId()) + ",'" +  doctor.getCCO() + "'," + String.valueOf(medicalEspeciality.getId()) + ")";
         return updateByCriteria(sql) > 0;
 
     }
