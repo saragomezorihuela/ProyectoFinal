@@ -10,11 +10,11 @@ import java.util.List;
  */
 public class PatientsEntity extends BaseEntity{
 
-    public List<Patient> findAll() {
+    public List<Patient> findAll(Hospital hospital) {
 
         String sql = "SELECT id,nroDocumento,first_name,last_name,birth_date,phone,cellphone,email,relative_name,relative_phone " +
                 "FROM dbdentalservice.people INNER JOIN dbdentalservice.patients ON " +
-                " people.id = patients.id_patient";
+                " people.id = patients.id_patient WHERE people.hospital_id = " + String.valueOf(hospital.getId()) + "";
         ResultSet resultSet = null;
         List<Patient> patients = new ArrayList<>();
         try {
@@ -35,6 +35,34 @@ public class PatientsEntity extends BaseEntity{
             e.printStackTrace();
         }
         return patients;
+
+    }
+
+    public List<Patient> findAllExt(People people) {
+
+        String sql = "SELECT id,nroDocumento,first_name,last_name,birth_date,phone,cellphone,email,relative_name,relative_phone " +
+                "FROM dbdentalservice.people INNER JOIN dbdentalservice.patients ON " +
+                " people.id = patients.id_patient WHERE nroDocumento = '" + people.getNroDocumento() + "'";
+        ResultSet resultSet1 = null;
+        List<Patient> patientsExt = new ArrayList<>();
+        try {
+            resultSet1 = getConnection().createStatement().executeQuery(sql);
+            while(resultSet1.next()) {
+                patientsExt.add(new Patient(resultSet1.getInt("id"),
+                        resultSet1.getString("nroDocumento"),
+                        resultSet1.getString("first_name"),
+                        resultSet1.getString("last_name"),
+                        resultSet1.getString("birth_date"),
+                        resultSet1.getString("phone"),
+                        resultSet1.getString("cellphone"),
+                        resultSet1.getString("email"),
+                        resultSet1.getString("relative_name"),
+                        resultSet1.getString("relative_phone")));
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        }
+        return patientsExt;
 
     }
 
@@ -62,7 +90,7 @@ public class PatientsEntity extends BaseEntity{
     }
 
     public boolean create(Patient patient) {
-        String sql = "INSERT INTO dbdentalservice.patients(id,relative_name,relative_phone) " +
+        String sql = "INSERT INTO dbdentalservice.patients(id_patient,relative_name,relative_phone) " +
                 //"VALUES(3,'" +  patient.getRelativename() + "','" +  patient.getRelativephone() + "')";
                 "VALUES("  + String.valueOf(patient.getId()) + ",'" +  patient.getRelativename() + "','" +  patient.getRelativephone() + "')";
         return updateByCriteria(sql) > 0;

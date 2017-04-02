@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class DoctorsEntity  extends BaseEntity{
 
-    public List<Doctor> findAll() {
+    public List<Doctor> findAll(Hospital hospital) {
 
         String sql = "SELECT id,nroDocumento,cco,first_name,last_name,birth_date,phone,cellphone,email " +
-                "FROM dbdentalservice.people INNER JOIN dbdentalservice.doctors ON " +
-                " people.id = doctors.id_doctor";
+                "FROM dbdentalservice.people p INNER JOIN dbdentalservice.doctors d ON " +
+                " p.id = d.id_doctor WHERE p.hospital_id = " + String.valueOf(hospital.getId()) + "";
         ResultSet resultSet = null;
         List<Doctor> doctors = new ArrayList<>();
         try {

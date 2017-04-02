@@ -35,6 +35,45 @@ public class PeoplesEntity extends BaseEntity{
 
     }
 
+    public People findPeople(String user) {
+
+        String sql = "SELECT p.* FROM dbdentalservice.people p INNER JOIN dbdentalservice.users u ON p.id = u.person_id WHERE u.usuario = 'jcurillo'";
+
+        People people = new People();
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) { new People(resultSet.getInt("id"),
+                    resultSet.getString("nroDocumento"),
+                    resultSet.getString("firs_tname"),
+                    resultSet.getString("last_name"),
+                    resultSet.getString("birth_date"),
+                    resultSet.getString("phone"),
+                    resultSet.getString("cellphone"),
+                    resultSet.getString("email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        /*
+        try {
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) { new People(resultSet.getInt("id"),
+                        resultSet.getString("nroDocumento"),
+                        resultSet.getString("firs_tname"),
+                        resultSet.getString("last_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("cellphone"),
+                        resultSet.getString("email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        */
+        return people;
+
+    }
+
     public int getPeoplesCount() {
 
         String sql = "SELECT COUNT(*) AS peoples_count FROM dbdentalservice.people";
@@ -63,6 +102,34 @@ public class PeoplesEntity extends BaseEntity{
 
     }
 
+    public String getPeopleName(User user) {
+
+        String sql = "SELECT CONCAT(first_name , ' ',last_name) AS NombreCompleto FROM dbdentalservice.people p INNER JOIN dbdentalservice.users u ON p.id = u.person_id WHERE u.usuario = '" + user.getName() + "'";
+        String Nombre = "";
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) Nombre = resultSet.getString("NombreCompleto");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Nombre;
+
+    }
+
+    public int getIdHospital(String user) {
+
+        String sql = "SELECT p.hospital_id as IdHospital FROM dbdentalservice.people p INNER JOIN dbdentalservice.users u ON p.id = u.person_id WHERE u.usuario = '" + user + "'";
+        int id = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) id = resultSet.getInt("IdHospital");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+
+    }
+
     private int updateByCriteria(String sql) {
         try {
             return getConnection().createStatement().executeUpdate(sql);
@@ -72,24 +139,15 @@ public class PeoplesEntity extends BaseEntity{
         return 0;
     }
 
-    public boolean create(People people, IdentityCard identityCard, Gender gender) {
+    public boolean create(People people, IdentityCard identityCard, Gender gender, Hospital hospital) {
         String sql = "INSERT INTO dbdentalservice.people(nroDocumento, first_name, last_name, birth_date, phone," +
                                                         "cellphone, email, hospital_id, blood_type_id, identity_card_id, " +
                                                         "distrit_id, gender_id) " +
                 "VALUES('" + people.getNroDocumento() + "','" + people.getFirstname() + "','" + people.getLastname() +
                         "','1980-02-01','" + people.getPhone() + "','" + people.getCellphone() + "','" +  people.getEmail() +
-                        "',1,1," + identityCard.getId() + ",1," + gender.getId() + ")";
+                        "'," + hospital.getId() + ",1," + identityCard.getId() + ",1," + gender.getId() + ")";
         return updateByCriteria(sql) > 0;
-/*
-, Hospital hospital, BloodType bloodType,
-                          IdentityCard identityCard, District district, Gender gender
 
-              "VALUES('" + people.getNroDocumento() + "','" + people.getFirstname() + "','" + people.getLastname() + "','" +
-                            String.valueOf(people.getBirthdate()) + "','" + people.getPhone() + "','" + people.getCellphone() + "','" +
-                            String.valueOf(hospital.getId()) + "','" + String.valueOf(bloodType.getId()) + "','" +
-                            String.valueOf(identityCard.getId()) + "','" + String.valueOf(district.getId()) + "','" +
-                            String.valueOf(gender.getId()) + "')";
-*/
     }
     public boolean update(People people) {
         String sql = "UPDATE dbdentalservice.people SET nroDocumento = '" + people.getNroDocumento() + "'" +

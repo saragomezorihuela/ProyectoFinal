@@ -1,6 +1,6 @@
 package pe.edu.utp.dentalservice.controllers;
 
-//import org.atteo.evo.inflector.English;
+import org.atteo.evo.inflector.English;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 /**
- * Created by JUAN CARLOS on 28/02/2017.
+ * Created by SARA SHEENA on 28/02/2017.
  */
 @WebServlet(name = "BaseController")
 public class BaseController extends HttpServlet  {
@@ -33,7 +33,7 @@ public class BaseController extends HttpServlet  {
     protected Connection getConnection() {
         try {
             InitialContext ctx = new InitialContext();
-            DataSource ds = (DataSource) ctx.lookup("jdbc/MySQLDataSource");
+            DataSource ds = (DataSource) ctx.lookup("jdbc/MySQLDataSourceDS");
             return ds.getConnection();
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
@@ -52,8 +52,7 @@ public class BaseController extends HttpServlet  {
     public String getUrlForAction(String action) {
         action = action.toLowerCase().trim();
         if(Arrays.asList(new  String[] {"index", "create", "update", "delete"}).contains(action)) {
-            //return "list" + English.plural(getEntityName()) + ".jsp";
-            return "";
+            return "list" + English.plural(getEntityName()) + ".jsp";
         }
         if(Arrays.asList(new String[] {"show", "new", "edit"}).contains(action)) {
             return action + getEntityName() + ".jsp";

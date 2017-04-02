@@ -99,4 +99,20 @@ public class HospitalsEntity extends BaseEntity{
         return hospitalsCount;
     }
 
+    public String getHospitalName(User user) {
+
+        String sql = "SELECT h.business_name AS Hospital FROM dbdentalservice.people p INNER JOIN dbdentalservice.users u ON p.id = u.person_id " +
+                " INNER JOIN dbdentalservice.hospitals h ON p.hospital_id = h.id " +
+                " WHERE u.usuario = '" + user.getName() + "'";
+        String Nombre = "";
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) Nombre = resultSet.getString("Hospital");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Nombre;
+
+    }
+
 }

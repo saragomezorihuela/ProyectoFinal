@@ -1,11 +1,15 @@
 package pe.edu.utp.dentalservice.models;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  * Created by Rodrigo Rivas on 24/02/2017.
  */
+@ManagedBean
+@RequestScoped
 public class User {
 
     private int id;
@@ -16,15 +20,12 @@ public class User {
     private Profile profile;
     private People people;
 
-    public User(int id, String name, String password, String state, Profile profile) {
+    public User(int id, String name, String password, String state) {
 
         this.id = id;
         this.name = name;
         this.password = password;
         this.state = state;
-
-        //this.person = person;
-        this.profile = profile;
 
     }
 
@@ -35,36 +36,32 @@ public class User {
         return id;
     }
 
-    public User setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public User setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public User setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
     public String getState() {
         return state;
     }
 
-    public User setSate(String state) {
+    public void setState(String state) {
         this.state = state;
-        return this;
     }
 
     public People getPeople() {
@@ -81,19 +78,6 @@ public class User {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
-    }
-
-    public static User build(ResultSet resultSet, ProfilesEntity profileEntity) {
-        try {
-            return new User(resultSet.getInt("id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("password"),
-                    resultSet.getString("state"),
-                    profileEntity.findById(resultSet.getInt("profile_id")));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }

@@ -10,45 +10,76 @@ import java.util.List;
  */
 public class UsersEntity extends BaseEntity{
 
-    private ProfilesEntity profilesEntity;
-
-    public UsersEntity() {
-        super("USERS");
-    }
-
     public List<User> findAll() {
-        String statement = getDefaultStatement() + getTableName();
-        return findByCriteria(statement);
-    }
 
-    private List<User> findByCriteria(String sql) {
+        String sql = "SELECT * FROM dbdentalservice.users";
+        ResultSet resultSet = null;
         List<User> users = new ArrayList<>();
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(sql);
-            while(rs.next()) {
-                User user = User.build(rs, getProfilesEntity());
-                users.add(user);
+            resultSet = getConnection().createStatement().executeQuery(sql);
+            while(resultSet.next()) {
+                users.add(new User(resultSet.getInt("id"),
+                        resultSet.getString("usuario"),
+                        resultSet.getString("clave"),
+                        resultSet.getString("state")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return users;
+
+    }
+/*
+    public int getTurnsCount() {
+
+        String sql = "SELECT COUNT(*) AS turns_count FROM dbdentalservice.users";
+        int turnsCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            if (resultSet.next()) turnsCount = resultSet.getInt("turns_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return turnsCount;
+
+    }
+*/
+    public int getLogin(User user) {
+
+        String sql = "SELECT COUNT(*) AS login_Count FROM dbdentalservice.users WHERE usuario = '" + user.getName() + "'" +
+                    " AND clave = '" + user.getPassword() + "'" ;
+        int loginCount = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            //if (resultSet.next()) loginCount = resultSet.getInt("login_Count");
+            //loginCount = resultSet.next() ? resultSet.getInt("login_Count") : 0;
+            if (resultSet.next()){
+                loginCount = resultSet.getInt("login_Count");
+            }
+            else{
+                loginCount = 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loginCount;
+
     }
 
-    public User findById(int id) {
-        String statement = "SELECT * FROM USERS WHERE id = " +
-                String.valueOf(id);
-        List<User> users = findByCriteria(statement);
-        return users != null ? users.get(0) : null;
-    }
+    public int getIdProfile(User user) {
 
-    public User findByName(String name) {
-        String statement = "SELECT * FROM USERS WHERE name = '" +
-                name + "'";
-        List<User> users = findByCriteria(statement);
-        return users != null ? users.get(0) : null;
-    }
+        String sql = "SELECT profile_id FROM dbdentalservice.users WHERE usuario = '" + user.getName() + "'";
+        int ProfileId = 0;
+        try {
+            ResultSet resultSet = getConnection().createStatement().executeQuery(sql);
+            //if (resultSet.next()) ProfileId = resultSet.getInt("profile_id");
+            ProfileId = resultSet.next() ? resultSet.getInt("profile_id") : 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ProfileId;
 
+    }
     private int updateByCriteria(String sql) {
         try {
             return getConnection().createStatement().executeUpdate(sql);
@@ -58,30 +89,22 @@ public class UsersEntity extends BaseEntity{
         return 0;
     }
 
-    public User create(int id, String name, String password, String state, int profileId) {
-        String sql = "INSERT INTO USERS(id, profileId, name, password, state) " +
-                "VALUES(" + String.valueOf(id) + "," + String.valueOf(profileId) + ", '" + name + ", '" + password + ", '" + state + "')";
-        return updateByCriteria(sql) > 0 ? new User(id, name, password, state, getProfilesEntity().findById(profileId)) : null;
-    }
+    public boolean create(User user,People people,int perfilId) {
+        String sql = "INSERT INTO dbdentalservice.users(usuario,clave,state,person_id,profile_id) " +
+                "VALUES('" + user.getName() + "','" + user.getPassword() + "','ACTIVO'," + String.valueOf(people.getId()) + "," + String.valueOf(perfilId) + ")";
+        return updateByCriteria(sql) > 0;
 
+    }
     public boolean update(User user) {
-        String sql = "UPDATE USERS SET name = '" + user.getName() + "," +
-                    "password = '" + user.getPassword() + "," +
-                    "state = '" + user.getState() +
-                "' WHERE id = " + String.valueOf(user.getId());
+        String sql = "UPDATE dbdentalservice.users SET usuario = '" + user.getName() + "','" +
+                " clave = '" + user.getPassword() + "' " +
+                " WHERE id = " + String.valueOf(user.getId());
         return updateByCriteria(sql) > 0;
     }
 
     public boolean delete(int id) {
-        String sql = "DELETE FROM USERS WHERE id = " + String.valueOf(id);
+        String sql = "DELETE FROM dbdentalservice.users WHERE id = " + String.valueOf(id);
         return updateByCriteria(sql) > 0;
     }
 
-    public ProfilesEntity getProfilesEntity() {
-        return profilesEntity;
-    }
-
-    public void setProfilesEntity(ProfilesEntity profilesEntity) {
-        this.profilesEntity = profilesEntity;
-    }
 }
