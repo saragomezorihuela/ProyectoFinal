@@ -41,19 +41,19 @@ public class DsBloodTypeBean {
         return service.getBloodTypesCount();
     }
 
-    public List<BloodType> geBloodTypes() { return service.findAllBloodTypes(); }
+    public List<BloodType> getBloodTypes() { return service.findAllBloodTypes(); }
 
     public String add(BloodType bloodType) {
         service.addBloodType(bloodType);
         return "BloodTypeList";
     }
 
-    public String update(Turn turn) {
-         service.updateTurn(turn);
-         return "TurnList";
+    public String update(BloodType bloodType) {
+         service.updateBloodType(bloodType);
+         return "BloodTypeList";
     }
 
-    public boolean delete(Turn turn) { return service.deleteTurn(turn); }
+    public boolean delete(BloodType bloodType) { return service.deleteBloodType(bloodType); }
 
     public String showTurnsCount() {
         if(getBloodTypesCount() > 0) {
@@ -63,7 +63,7 @@ public class DsBloodTypeBean {
         }
     }
 
-    public BloodType getSelectedTurn() {
+    public BloodType getSelectedBloodType() {
         return bloodType;
     }
 
