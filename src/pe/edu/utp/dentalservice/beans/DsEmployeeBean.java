@@ -15,16 +15,16 @@ import java.util.List;
 /**
  * Created by Sara Sheena on 19/03/2017.
  */
-@ManagedBean(name = "doctorBean", eager = true)
+@ManagedBean(name = "employeeBean", eager = true)
 @SessionScoped
-public class DsDoctorBean {
+public class DsEmployeeBean {
 
     private DsService service;
 
-    private Doctor doctor = new Doctor();
+    private Employee employee = new Employee();
     private People people = new People();
 
-    public DsDoctorBean() {
+    public DsEmployeeBean() {
         try {
             InitialContext ctx = new InitialContext();
             Connection connection = ((DataSource) ctx
@@ -37,44 +37,43 @@ public class DsDoctorBean {
         }
     }
 
-    public int getDoctorsCount() {
-        return service.getDoctorsCount();
+    public int getPatientsCount() {
+        return service.getPatientsCount();
     }
 
-    public List<Doctor> getDoctors(String user) { return service.findAllDoctors(user); }
+    public List<Patient> getPatients(String user) { return service.findAllPatients(user); }
 
-    public String add(People people, Doctor doctor, IdentityCard identityCard, Gender gender,
-                      MedicalEspeciality medicalEspeciality, Hospital hospital, String user) {
+    public String add(People people, Employee employee, IdentityCard identityCard, Gender gender, Hospital hospital) {
 
-        service.addDoctor(people, doctor, identityCard, gender, medicalEspeciality, hospital, user);
-        return "DoctorList";
+        service.addEmployee(people, employee, identityCard, gender, hospital);
+        return "EmployeeList";
     }
 
-    public String update(Doctor doctor) {
-         service.updateDoctor(doctor);
-         return "DoctorList";
+    public String update(Employee employee) {
+         service.updateEmployee(employee);
+         return "EmployeeList";
     }
 
-    public boolean delete(Doctor doctor) { return service.deleteDoctor(doctor); }
+    public boolean delete(Employee employee) { return service.deleteEmployee(employee); }
 
-    public String showTurnsCount() {
-        if(getDoctorsCount() > 0) {
+    public String showEmployeesCount() {
+        if(getPatientsCount() > 0) {
             return "success";
         } else {
             return "error";
         }
     }
 
-    public Doctor getSelectedDoctor() {
-        return doctor;
+    public Employee getSelectedEmployee() {
+        return employee;
     }
 
-    public String edit(Doctor doctor) {
-        this.doctor = doctor;
-        return "DoctorEdit";
+    public String edit(Employee employee) {
+        this.employee = employee;
+        return "EmployeeEdit";
     }
 
-    public String listDoctors() {
+    public String listEmployees() {
         return "success";
     }
 

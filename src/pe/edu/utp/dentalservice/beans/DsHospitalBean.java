@@ -1,6 +1,6 @@
 package pe.edu.utp.dentalservice.beans;
 
-import pe.edu.utp.dentalservice.models.Hospital;
+import pe.edu.utp.dentalservice.models.*;
 import pe.edu.utp.dentalservice.service.DsService;
 
 import javax.faces.bean.ManagedBean;
@@ -47,9 +47,10 @@ public class DsHospitalBean {
         return service.findAllHospitals();
     }
 
-    public String add(Hospital hospital) {
-        service.addHospital(hospital);
-        return "HospitalList";
+    public String add(Hospital hospital, People people,User user, IdentityCard identityCard, Gender gender) {
+        service.addHospital(hospital,people,user,identityCard,gender);
+        //return "HospitalList";
+        return "Bienvenida";
     }
 
     public String update(Hospital hospital) {

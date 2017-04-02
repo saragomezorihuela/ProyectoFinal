@@ -36,16 +36,22 @@ public class DsPatientBean {
             e.printStackTrace();
         }
     }
+    public void onload(String user) {
 
+        this.people = service.findPeople("jcurillo");
+
+    }
     public int getPatientsCount() {
         return service.getPatientsCount();
     }
 
-    public List<Patient> getPatients() { return service.findAllPatients(); }
+    public List<Patient> getPatients(String user) { return service.findAllPatients(user); }
 
-    public String add(People people, Patient patient, IdentityCard identityCard, Gender gender) {
+    public List<Patient> getPatientsExt(People people) { return service.findAllPatientsExt(people); }
 
-        service.addPatient(people, patient, identityCard, gender);
+    public String add(People people, Patient patient, IdentityCard identityCard, Gender gender, Hospital hospital,String user) {
+
+        service.addPatient(people, patient, identityCard, gender, hospital, user);
         return "PatientList";
     }
 
@@ -68,13 +74,31 @@ public class DsPatientBean {
         return patient;
     }
 
+    public People getSelectedPeople() {
+        return people;
+    }
+
     public String edit(Patient patient) {
         this.patient = patient;
         return "PatientEdit";
+    }
+
+    public String GetPeople(String  user) {
+        //this.people = service.findPeople("jcurillo");
+
+        return "DatosPersonales";
     }
 
     public String listPatients() {
         return "success";
     }
 
+    public void setDatosPersonales(String user) {
+        this.people = service.findPeople("jcurillo");
+    }
+
+    public People getDatosPersonales()  {
+        // Do your stuff here.
+        return people;
+    }
 }

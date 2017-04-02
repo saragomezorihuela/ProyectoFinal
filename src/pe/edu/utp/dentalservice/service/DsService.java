@@ -12,6 +12,7 @@ public class DsService {
 
     private Connection connection;
     private PeoplesEntity peoplesEntity;
+    private EmployeesEntity employeesEntity;
     private HospitalsEntity hospitalsEntity;
     private GendersEntity gendersEntity;
     private IdentityCardsEntity identityCardsEntity;
@@ -27,6 +28,7 @@ public class DsService {
     private PatientsEntity patientsEntity;
     private MedicalEspecialitiesEntity medicalEspecialitiesEntity;
     private SchedulesEntity schedulesEntity;
+    private UsersEntity usersEntity;
 
     public DsService() {
     }
@@ -127,7 +129,13 @@ public class DsService {
         return hospitalsEntity;
     }
 
-    public boolean addHospital(Hospital hospital) {
+    public boolean addHospital(Hospital hospital, People people,User user, IdentityCard identityCard, Gender gender) {
+
+        boolean p,u;
+        p = getPeoplesEntity().create(people, identityCard, gender, hospital);
+        people.setId(getPeoplesEntity().getPeopleId());
+        u = getUsersEntity().create(user,people,1);
+
         return getHospitalsEntity().create(hospital);
     }
 
@@ -331,8 +339,13 @@ public class DsService {
         this.gendersEntity = gendersEntity;
     }
 
-    public List<Doctor> findAllDoctors() {
-        return getDoctorsEntity().findAll();
+    public List<Doctor> findAllDoctors(String user) {
+
+        Hospital hospital=new Hospital();
+        hospital.setId(getPeoplesEntity().getIdHospital(user));
+
+        return getDoctorsEntity().findAll(hospital);
+
     }
 
     public int getDoctorsCount() {
@@ -349,10 +362,13 @@ public class DsService {
         return doctorsEntity;
     }
 
-    public boolean addDoctor(People people, Doctor doctor, IdentityCard identityCard, Gender gender, MedicalEspeciality medicalEspeciality) {
+    public boolean addDoctor(People people, Doctor doctor, IdentityCard identityCard, Gender gender,
+                             MedicalEspeciality medicalEspeciality,Hospital hospital, String user) {
+
+        hospital.setId(getPeoplesEntity().getIdHospital(user));
 
         boolean p;
-        p = getPeoplesEntity().create(people, identityCard, gender);
+        p = getPeoplesEntity().create(people, identityCard, gender, hospital);
 
         doctor.setId(getPeoplesEntity().getPeopleId());
 
@@ -374,8 +390,16 @@ public class DsService {
         this.patientsEntity = patientsEntity;
     }
 
-    public List<Patient> findAllPatients() {
-        return getPatientsEntity().findAll();
+    public List<Patient> findAllPatients(String user ) {
+
+        Hospital hospital=new Hospital();
+        hospital.setId(getPeoplesEntity().getIdHospital(user));
+
+        return getPatientsEntity().findAll(hospital);
+    }
+
+    public List<Patient> findAllPatientsExt(People people) {
+        return getPatientsEntity().findAllExt(people);
     }
 
     public int getPatientsCount() {
@@ -392,14 +416,33 @@ public class DsService {
         return patientsEntity;
     }
 
-    public boolean addPatient(People people, Patient patient, IdentityCard identityCard, Gender gender) {
+    public boolean addPatient(People people, Patient patient, IdentityCard identityCard, Gender gender,
+                              Hospital hospital, String user) {
 
-        boolean p;
-        p = getPeoplesEntity().create(people, identityCard, gender);
+        User usuario = new User();
+
+        hospital.setId(getPeoplesEntity().getIdHospital(user));
+
+        boolean p,u;
+        p = getPeoplesEntity().create(people, identityCard, gender, hospital);
 
         patient.setId(getPeoplesEntity().getPeopleId());
+        /*creacion de usuario*/
+        usuario.setName(people.getNroDocumento());
+        usuario.setPassword(people.getNroDocumento());
+        people.setId(getPeoplesEntity().getPeopleId());
+        u = getUsersEntity().create(usuario,people,3);
 
         return getPatientsEntity().create(patient);
+
+        /*
+
+        boolean p,u;
+        p = getPeoplesEntity().create(people, identityCard, gender, hospital);
+        people.setId(getPeoplesEntity().getPeopleId());
+        u = getUsersEntity().create(user,people);
+
+         */
     }
 
     public boolean updatePatient(Patient patient) {
@@ -569,6 +612,10 @@ public class DsService {
         return getPeoplesEntity().findAll();
     }
 
+    public People findPeople(String user) {
+        return getPeoplesEntity().findPeople(user);
+    }
+
     public int getPeoplesCount() {
         return getPeoplesEntity().getPeoplesCount();
     }
@@ -583,8 +630,9 @@ public class DsService {
         return peoplesEntity;
     }
 
-    public boolean addPeople(People people, Hospital hospital, BloodType bloodType, IdentityCard identityCard, District district, Gender gender) {
-        return getPeoplesEntity().create(people,identityCard,gender);
+    public boolean addPeople(People people, Hospital hospital, BloodType bloodType, IdentityCard identityCard,
+                             District district, Gender gender) {
+        return getPeoplesEntity().create(people,identityCard,gender, hospital);
     }
 
     public boolean updatePeople(People people) {
@@ -630,6 +678,103 @@ public class DsService {
 
     public boolean deleteSchedule(Schedule schedule) {
         return getSchedulesEntity().delete(schedule.getId());
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // EMPLOYEE
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    protected void setEmployeesEntity(EmployeesEntity employeesEntity) {
+        this.employeesEntity = employeesEntity;
+    }
+
+    public List<Employee> findAllEmployees() {
+        return getEmployeesEntity().findAll();
+    }
+
+    public int getEmployeesCount() {
+        return getEmployeesEntity().getEmployeesCount();
+    }
+
+    protected EmployeesEntity getEmployeesEntity() {
+        if (connection != null) {
+            if (employeesEntity == null) {
+                employeesEntity = new EmployeesEntity();
+                employeesEntity.setConnection(getConnection());
+            }
+        }
+        return employeesEntity;
+    }
+
+    public boolean addEmployee(People people, Employee employee, IdentityCard identityCard, Gender gender, Hospital hospital) {
+
+        boolean p;
+        p = getPeoplesEntity().create(people, identityCard, gender,hospital);
+
+        employee.setId(getPeoplesEntity().getPeopleId());
+
+        return getEmployeesEntity().create(employee);
+    }
+
+    public boolean updateEmployee(Employee employee) {
+        return getEmployeesEntity().update(employee);
+    }
+
+    public boolean deleteEmployee(Employee employee) {
+        return getEmployeesEntity().delete(employee.getId());
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // USER
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    protected void setUsersEntity(UsersEntity usersEntity) {
+        this.usersEntity = usersEntity;
+    }
+
+    public List<User> findAllUsers() {
+        return getUsersEntity().findAll();
+    }
+/*
+    public int getUsersCount() {
+        return getUsersEntity().getUsersCount();
+    }
+*/
+    protected UsersEntity getUsersEntity() {
+        if (connection != null) {
+            if (usersEntity == null) {
+                usersEntity = new UsersEntity();
+                usersEntity.setConnection(getConnection());
+            }
+        }
+        return usersEntity;
+    }
+
+
+    public boolean addUsersEntity(User user, People people,int perfilId) {
+        return getUsersEntity().create(user,people,perfilId);
+    }
+
+    public boolean updateUser(User user) {
+        return getUsersEntity().update(user);
+    }
+
+    public boolean deleteUser(User user) {
+        return getUsersEntity().delete(user.getId());
+    }
+
+    public int loginUser(User user) {
+        return getUsersEntity().getLogin(user);
+    }
+
+    public int profileUser(User user) {
+        return getUsersEntity().getIdProfile(user);
+    }
+
+    public String GetFullName(User user){
+        return getPeoplesEntity().getPeopleName(user);
+    }
+
+    public String GetHospitalName(User user){
+        return getHospitalsEntity().getHospitalName(user);
     }
 
 }
