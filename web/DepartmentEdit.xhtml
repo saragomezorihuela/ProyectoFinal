@@ -16,15 +16,15 @@
             <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
             <h:outputLabel value="#{sessionScope['id']}" style="color: #06408C; font-weight: bold"/>
         </div>
-        <div class="titulo">Actualizar Turnos</div>
+        <div class="titulo">Actualizar Departamento</div>
         <h:panelGrid columns="2" id="paneleditar" >
-            <h:outputLabel value="Código:" /><h:inputText id="id" value="#{turnBean.selectedTurn.id}" readonly="true"/>
-            <h:outputLabel value="Descripción:" /><h:inputText id="description" value="#{turnBean.selectedTurn.description}"/>
+            <h:outputLabel value="Código:" /><h:inputText id="id" value="#{departmentBean.selectedDepartment.id}" readonly="true"/>
+            <h:outputLabel value="Descripción:" /><h:inputText id="description" value="#{departmentBean.selectedDepartment.description}" style="width: 300px"/>
         </h:panelGrid>
         <div class="row-center-align">
-            <h:commandButton value="Grabar" action="#{turnBean.update(turnBean.selectedTurn)}" styleClass="buttonGrilla">
+            <h:commandButton value="Grabar" action="#{departmentBean.update(departmentBean.selectedDepartment)}" styleClass="buttonGrilla">
             </h:commandButton>
-            <h:commandButton value="Cancelar" action="TurnList" styleClass="buttonGrilla">
+            <h:commandButton value="Cancelar" action="DepartmentList" styleClass="buttonGrilla">
             </h:commandButton>
         </div>
     </h:form>

@@ -8,6 +8,11 @@
           <element id="module-output" name="ProjectDentalService" />
         </element>
       </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/../Publicar" />
+      <element id="dir-copy" path="$PROJECT_DIR$" />
+      <element id="directory" name="Compilado">
+        <element id="dir-copy" path="$PROJECT_DIR$" />
+      </element>
     </root>
   </artifact>
 </component>

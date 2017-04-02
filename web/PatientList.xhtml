@@ -7,13 +7,24 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <link rel="stylesheet" type="text/css" href="Style.css"/>
+<link rel="stylesheet" type="text/css" href="StylePatient.css"/>
 
 <h:body>
     <f:view>
         <h:form>
+            <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
             <div class="box">
-                <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
-                <h2 class="titulo">Mantenimiento de Pacientes</h2>
+                <h:outputLabel value="#{sessionScope['hospitalname']}" style="color: #06408C; font-weight: bold" />
+                <h:outputLabel value=" : " style="color: #06408C; font-weight: bold" />
+                <h:outputLabel value="#{sessionScope['id']}" style="color: #06408C; font-weight: bold"/>
+            </div>
+            <div style="text-align: left">
+                <h:commandButton value="Mantenimiento de Doctores" action="DoctorList" styleClass="buttonGrilla" style="width: 200px"></h:commandButton>
+                <h:commandButton value="Mantenimiento de Pacientes" action="PatientList" styleClass="buttonGrilla" style="width: 200px"></h:commandButton>
+                <h:commandButton value="Busqueda de Pacientes" action="PatientExtList" styleClass="buttonGrilla" style="width: 200px"></h:commandButton>
+                <h:commandButton value="Cerrar Sesión" action="Default" styleClass="buttonGrilla" style="width: 200px"></h:commandButton>
+            </div>
+            <div class="titulo">Mantenimiento de Pacientes</div>
                 <h:commandButton value = "Agregar" action = "PatientAdd" styleClass="buttonGrilla">
                 </h:commandButton>
 
@@ -21,7 +32,7 @@
                              cellspacing="0"
                              cellpadding="0"
                              border="0"
-                             value="#{patientBean.patients}" var="patient">
+                             value="#{patientBean.getPatients(sessionScope['id'])}" var="patient">
                     <h:column>
                         <f:facet name="header" >Id</f:facet>
                         #{patient.id}
@@ -68,7 +79,6 @@
                         </h:commandButton>
                     </h:column>
                 </h:dataTable>
-            </div>
         </h:form>
     </f:view>
 </h:body>

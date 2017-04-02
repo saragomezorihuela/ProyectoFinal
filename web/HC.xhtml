@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<link rel="stylesheet" type="text/css" href="Style.css"/>
+
+<h:body >
+<f:view>
+    <h:form>
+    <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
+    <div class="box">
+        <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
+        <h:outputLabel value="#{sessionScope['username']}" style="color: #06408C; font-weight: bold"/>
+    </div>
+        <div class="titulo">Datos Personales</div>
+
+        <div class="row-center-align">
+            <h:graphicImage url="images/HC.jpg"></h:graphicImage>
+        </div>
+        <div class="row-center-align">
+            <h:commandButton value="Retornar" action="DatosPersonales" styleClass="buttonGrilla">
+            </h:commandButton>
+        </div>
+    </h:form>
+</f:view>
+</h:body>
+</html>

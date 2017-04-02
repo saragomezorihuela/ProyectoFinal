@@ -11,18 +11,12 @@
 <h:body>
     <f:view>
         <h:form>
+            <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
             <div class="box">
-                <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
-                <h2 class="titulo">Agregar Doctor</h2>
-                <h:panelGrid columns="4" >
-                    <h:outputLabel value="Centro Salud / Clínica:" />
-                    <h:selectOneMenu  id="cboHospital" value="#{hospital.id}" style="width: 655px">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{hospitalBean.hospitals}"
-                                       var="hospital" itemValue="#{hospital.id}"
-                                       itemLabel="#{hospital.businessName}" />
-                    </h:selectOneMenu>
-                </h:panelGrid>
+                <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
+                <h:outputLabel value="#{sessionScope['id']}" style="color: #06408C; font-weight: bold"/>
+            </div>
+            <div class="titulo">Agregar Doctor</div>
                 <h:panelGrid id="grid1" columns="4" >
                     <h:outputLabel value="Tipo de Documento:" />
                     <h:selectOneMenu  id="cboIdentityCard" value="#{identityCard.id}">
@@ -64,8 +58,10 @@
                                        var="schedule" itemValue="#{schedule.id}"
                                        itemLabel="#{schedule.schedule}" />
                     </h:selectOneMenu>
+                    <h:outputLabel value="" /><h:outputLabel value="" />
                 </h:panelGrid>
-                <h:commandButton value="Grabar" action="#{doctorBean.add(people,doctor,identityCard,gender,medicalEspeciality)}" styleClass="buttonGrilla">
+            <div class="row-center-align">
+                <h:commandButton value="Grabar" action="#{doctorBean.add(people,doctor,identityCard,gender,medicalEspeciality,hospital,sessionScope['id'])}" styleClass="buttonGrilla">
                 </h:commandButton>
                 <h:commandButton value="Cancelar" action="DoctorList" styleClass="buttonGrilla">
                 </h:commandButton>

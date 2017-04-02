@@ -11,9 +11,10 @@
 <h:body>
     <f:view>
         <h:form id="formHospital">
+            <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
             <div class="box">
-                <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
                 <h2 class="titulo">Agregar Hospital</h2>
+            </div>
                 <h:panelGrid columns="4" id="paneleditar" >
                     <h:outputLabel value="RUC:" /><h:inputText id="ruc" value="#{hospital.ruc}"/>
                     <h:outputLabel value="Razón Social:" /><h:inputText id="businessName" value="#{hospital.businessName}" style="width: 305px"/>
@@ -23,6 +24,8 @@
                     <h:outputLabel value="" /><h:outputLabel value="" />
                 </h:panelGrid>
                 <h:panelGrid columns="4" >
+                    <h:outputLabel value="Datos del Administrador" style="font-weight: bold"/><h:outputLabel value=""/>
+                    <h:outputLabel value=""/><h:outputLabel value=""/>
                     <h:outputLabel value="Tipo de Documento:" />
                     <h:selectOneMenu  id="cboIdentityCard" value="#{identityCard.id}">
                         <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
@@ -46,42 +49,21 @@
                     </h:selectOneMenu>
                     <h:outputLabel value="Teléfono:" /><h:inputText id="phone" value="#{people.phone}"/>
                     <h:outputLabel value="Celular:" /><h:inputText id="cellphone" value="#{people.cellphone}"/>
-                    <h:outputLabel value="Dirección:"/>
-                    <h:inputText id="address" value="#{people.address}" style="width: 250px"/>
-                    <h:outputLabel value="Departamento:" />
-                    <h:selectOneMenu  id="cboDepartment" value="#{department.id}">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{departmentBean.departments}"
-                                       var="department" itemValue="#{department.id}"
-                                       itemLabel="#{department.description}" />
-                        <f:ajax listener="#{ubigeoBean.changeState}" render="city region station" />
-                    </h:selectOneMenu>
-                    <h:outputLabel value="Provincia:" />
-                    <h:selectOneMenu  id="cboProvince" value="#{province.id}">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{provinceBean.provinces}"
-                                       var="province" itemValue="#{province.id}"
-                                       itemLabel="#{province.description}" />
-                    </h:selectOneMenu>
-                    <h:outputLabel value="Distrito:" />
-                    <h:selectOneMenu  id="cboDistrict" value="#{identityCard.id}">
-                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                        <f:selectItems value="#{identityCardBean.identityCards}"
-                                       var="district" itemValue="#{identityCard.id}"
-                                       itemLabel="#{identityCard.description}" />
-                    </h:selectOneMenu>
-                    <h:outputLabel value=""/><h:outputLabel value=""/>
+                    <h:outputLabel value="Email:"/><h:inputText id="emailEmployee" value="#{people.email}" style="width: 250px"/>
+                    <h:outputLabel value="Dirección:"/><h:inputText id="address" value="#{people.address}" style="width: 250px"/>
+                    <h:outputLabel value="" /><h:outputLabel value="" />
                     <h:outputLabel value=""/><h:outputLabel value=""/>
                     <h:outputLabel value="Datos de Logueo" style="font-weight: bold"/><h:outputLabel value=""/>
                     <h:outputLabel value=""/><h:outputLabel value=""/>
                     <h:outputLabel value="Usuario:"/>
-                    <h:inputText id="user" value="#{patient.relativename}" style="width: 250px"/>
+                    <h:inputText id="user" value="#{user.name}" style="width: 250px"/>
                     <h:outputLabel value="Contraseña:"/>
-                    <h:inputText id="password" value="#{patient.relativephone}" style="width: 250px"/>
+                    <h:inputText id="password" value="#{user.password}" style="width: 250px"/>
                 </h:panelGrid>
-                <h:commandButton value="Grabar" action="#{hospitalBean.add(hospital)}" styleClass="buttonGrilla">
+            <div class="row-center-align">
+                <h:commandButton value="Grabar" action="#{hospitalBean.add(hospital,people,user,identityCard,gender)}" styleClass="buttonGrilla">
                 </h:commandButton>
-                <h:commandButton value="Cancelar" action="HospitalList" styleClass="buttonGrilla">
+                <h:commandButton value="Retornar" action="Default" styleClass="buttonGrilla">
                 </h:commandButton>
             </div>
         </h:form>

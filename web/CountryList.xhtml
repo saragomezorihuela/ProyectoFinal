@@ -7,13 +7,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <link rel="stylesheet" type="text/css" href="Style.css"/>
+<link rel="stylesheet" type="text/css" href="StyleCountry.css"/>
 
 <h:body>
     <f:view>
         <h:form>
+            <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
             <div class="box">
-            <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
-            <h2 class="titulo">Mantenimiento de Paises</h2>
+                <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
+                <h:outputLabel value="#{sessionScope['id']}" style="color: #06408C; font-weight: bold"/>
+            </div>
+            <div style="text-align: left">
+                <h:commandButton value="Hospitales" action="HospitalList" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+                <h:commandButton value="Paises" action="CountryList" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+                <h:commandButton value="Departamentos" action="DepartmentList" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+                <h:commandButton value="Tipo de Sangre" action="BloodTypeList" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+                <h:commandButton value="Especialidad Médica" action="MedicalEspecialityList" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+                <h:commandButton value="Tipo Tratamiento" action="TreatmentTypeList" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+                <h:commandButton value="Turno" action="TurnList" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+                <h:commandButton value="Cerrar Sesión" action="Default" styleClass="buttonGrilla" style="width: 120px"></h:commandButton>
+            </div>
+            <div class="titulo">Mantenimiento de Paises</div>
             <h:commandButton value = "Agregar" action = "CountryAdd" styleClass="buttonGrilla">
             </h:commandButton>
             <h:dataTable styleClass="people" cellspacing="0" cellpadding="0" border="0" value="#{countryBean.countries}" var="country">
@@ -39,7 +53,6 @@
                     </h:commandButton>
                 </h:column>
             </h:dataTable>
-            </div>
         </h:form>
     </f:view>
 </h:body>

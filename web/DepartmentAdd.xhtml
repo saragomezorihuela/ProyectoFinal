@@ -4,7 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html">
 
 <link rel="stylesheet" type="text/css" href="Style.css"/>
@@ -12,9 +11,12 @@
 <h:body>
     <f:view>
         <h:form>
+            <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
             <div class="box">
-                <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
-                <h2 class="titulo">Agregar Departamento</h2>
+                <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
+                <h:outputLabel value="#{sessionScope['id']}" style="color: #06408C; font-weight: bold"/>
+            </div>
+            <div class="titulo">Agregar Departamento</div>
                 <h:panelGrid columns="2" id="paneleditar" >
                     <h:outputLabel value="País:" />
                     <h:selectOneMenu  id="cboIdentityCard" value="#{country.id}">
@@ -25,6 +27,7 @@
                     </h:selectOneMenu>
                     <h:outputLabel value="Nombre del país:" /><h:inputText id="description" value="#{department.description}" style="width: 300px"/>
                 </h:panelGrid>
+            <div class="row-center-align">
                 <h:commandButton value="Grabar" action="#{departmentBean.add(department,country)}" styleClass="buttonGrilla">
                 </h:commandButton>
                 <h:commandButton value="Cancelar" action="DepartmentList" styleClass="buttonGrilla">

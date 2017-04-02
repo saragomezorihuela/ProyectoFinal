@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<link rel="stylesheet" type="text/css" href="Style.css"/>
+
+<h:body >
+<f:view>
+    <h:form>
+    <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
+    <div class="box">
+        <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
+        <h:outputLabel value="#{sessionScope['username']}" style="color: #06408C; font-weight: bold"/>
+    </div>
+        <div class="titulo">Datos Personales</div>
+            <h:panelGrid id="grid1" columns="4" >
+                <h:outputLabel value="Nro. de Documento:" /><h:inputText id="nroDocumento" value="30303030" readonly="true"/>
+                <h:outputLabel value="Nombres:" /><h:inputText id="first_name" value="Jorge" style="width: 250px" readonly="true"/>
+                <h:outputLabel value="Apellidos:" /><h:inputText id="last_name" value="Estrada" style="width: 250px" readonly="true"/>
+                <h:outputLabel value="Fecha de Nacimiento:" />
+                <h:inputText id="birth_date" value="02/01/1980" readonly="true">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:inputText>
+                <h:outputLabel value="Teléfono:" /><h:inputText id="phone" value="65466" readonly="true"/>
+                <h:outputLabel value="Celular:" /><h:inputText id="cellphone" value="9897987" readonly="true"/>
+                <h:outputLabel value="Email:"/><h:inputText id="email" value="jorgegmail.com" style="width: 250px" readonly="true"/>
+                <h:outputLabel value="Dirección:"/><h:inputText id="address" value="Av." style="width: 250px" readonly="true"/>
+                <h:outputLabel value="Pariente Cercano:"/>
+                <h:inputText id="relative_name" value="martin" style="width: 250px" readonly="true"/>
+                <h:outputLabel value="Telf. pariente Cercano:"/>
+                <h:inputText id="phone_name" value="5645646" style="width: 250px" readonly="true"/>
+            </h:panelGrid>
+        <div class="row-center-align">
+            <h:graphicImage url="images/odontograma.jpg"></h:graphicImage>
+        </div>
+        <div class="row-center-align">
+            <h:commandButton value="Ver Historial" action="HC" styleClass="buttonGrilla">
+            </h:commandButton>
+            <h:commandButton value="Salir" action="Default" styleClass="buttonGrilla">
+            </h:commandButton>
+        </div>
+    </h:form>
+</f:view>
+</h:body>
+</html>

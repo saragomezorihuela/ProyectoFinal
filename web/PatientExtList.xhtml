@@ -4,10 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <link rel="stylesheet" type="text/css" href="Style.css"/>
-<link rel="stylesheet" type="text/css" href="StyleDoctor.css"/>
+<link rel="stylesheet" type="text/css" href="StylePatientExt.css"/>
 
 <h:body>
     <f:view>
@@ -24,52 +24,53 @@
                 <h:commandButton value="Busqueda de Pacientes" action="PatientExtList" styleClass="buttonGrilla" style="width: 200px"></h:commandButton>
                 <h:commandButton value="Cerrar Sesión" action="Default" styleClass="buttonGrilla" style="width: 200px"></h:commandButton>
             </div>
-            <div class="titulo">Mantenimiento de Doctores</div>
-                <h:commandButton value = "Agregar" action = "DoctorAdd" styleClass="buttonGrilla">
-                </h:commandButton>
-
-                <h:dataTable styleClass="people"
+            <div class="titulo">Búsqueda de Pacientes</div>
+                <h:panelGrid columns="3" id="paneleditar" >
+                    <h:outputLabel value="Nro. Documento:" style="width: 100px"/>
+                    <h:inputText id="nroDocumento" value="#{people.nroDocumento}" style="width: 100px"/>
+                    <h:commandButton value = "Buscar"  styleClass="buttonGrilla">
+                        <f:ajax render="pacientes" execute="@this" />
+                    </h:commandButton>
+                </h:panelGrid>
+<br></br>
+                <h:dataTable id="pacientes" styleClass="people"
                              cellspacing="0"
                              cellpadding="0"
                              border="0"
-                             value="#{doctorBean.getDoctors(sessionScope['id'])}" var="doctor">
+                             value="#{patientBean.getPatientsExt(people)}" var="patient" width="90%">
                     <h:column>
                         <f:facet name="header" >Id</f:facet>
-                        #{doctor.id}
+                        #{patient.id}
                     </h:column>
                     <h:column>
                         <f:facet name="header">DNI</f:facet>
-                        #{doctor.nroDocumento}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">CCO</f:facet>
-                        #{doctor.CCO}
+                        #{patient.nroDocumento}
                     </h:column>
                     <h:column>
                         <f:facet name="header">Apellidos</f:facet>
-                        #{doctor.lastname}
+                        #{patient.lastname}
                     </h:column>
                     <h:column>
                         <f:facet name="header">Nombres</f:facet>
-                        #{doctor.firstname}
+                        #{patient.firstname}
                     </h:column>
                     <h:column>
                         <f:facet name="header">Fec. Nac</f:facet>
-                        #{doctor.birthdate}
+                        #{patient.birthdate}
                     </h:column>
                     <h:column>
                         <f:facet name="header">Telf.</f:facet>
-                        #{doctor.phone}
+                        #{patient.phone}
                     </h:column>
                     <h:column>
                         <f:facet name="header">Celular</f:facet>
-                        #{doctor.cellphone}
+                        #{patient.cellphone}
                     </h:column>
                     <h:column>
                         <f:facet name="header">Email</f:facet>
-                        #{doctor.email}
+                        #{patient.email}
                     </h:column>
-                    <h:column>
+                    <!--h:column>
                         <f:facet name = "header"></f:facet>
                         <h:commandButton value = "Editar" action="#{hospitalBean.edit(hospital)}" styleClass="buttonGrilla">
                         </h:commandButton>
@@ -79,9 +80,9 @@
                         <h:commandButton value = "Eliminar"
                                          action = "#{hospitalBean.delete(turn)}"
                                          styleClass="buttonGrilla"
-                                         onclick="if (! confirm('Está seguro de eliminar el doctor?')) return false">
+                                         onclick="if (! confirm('Está seguro de eliminar el hospital?')) return false">
                         </h:commandButton>
-                    </h:column>
+                    </h:column-->
                 </h:dataTable>
         </h:form>
     </f:view>

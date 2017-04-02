@@ -16,16 +16,16 @@
                 <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
                 <h:outputLabel value="#{sessionScope['id']}" style="color: #06408C; font-weight: bold"/>
             </div>
-            <div class="titulo">Agregar País</div>
+            <div class="titulo">Agregar Tipo de Sangre</div>
                 <h:panelGrid columns="2" id="paneleditar" >
-                    <h:outputLabel value="Nombre del país:" /><h:inputText id="description" value="#{country.description}" style="width: 300px"/>
+                    <h:outputLabel value="Descripción:" /><h:inputText id="description" value="#{bloodType.description}"/>
                 </h:panelGrid>
             <div class="row-center-align">
-                <h:commandButton value="Grabar" action="#{countryBean.add(country)}" styleClass="buttonGrilla">
+                <h:commandButton value="Grabar" action="#{bloodTypeBean.add(bloodType)}" styleClass="buttonGrilla">
                 </h:commandButton>
-                <h:commandButton value="Cancelar" action="CountryList" styleClass="buttonGrilla">
-                </h:commandButton>
-        </div>
+                <h:commandButton value="Cancelar" action="BloodTypeList" styleClass="buttonGrilla">
+                    </h:commandButton>
+            </div>
     </h:form>
 </f:view>
 </h:body>

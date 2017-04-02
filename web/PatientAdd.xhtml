@@ -11,9 +11,12 @@
 <h:body>
     <f:view>
         <h:form>
-            <div class="box">
-                <h:graphicImage url="images/Banner.png" width="1200px" height="122px"></h:graphicImage>
-                <h2 class="titulo">Agregar Paciente</h2>
+                <h:graphicImage url="images/Banner.png" styleClass="banner"></h:graphicImage>
+                <div class="box">
+                    <h:outputLabel value="Usuario: " style="color: #06408C; font-weight: bold" />
+                    <h:outputLabel value="#{sessionScope['id']}" style="color: #06408C; font-weight: bold"/>
+                </div>
+                <div class="titulo">Agregar Paciente</div>
                 <h:panelGrid id="grid1" columns="4" >
                     <h:outputLabel value="Tipo de Documento:" />
                     <h:selectOneMenu  id="cboIdentityCard" value="#{identityCard.id}">
@@ -45,7 +48,8 @@
                     <h:outputLabel value="Telf. pariente Cercano:"/>
                     <h:inputText id="phone_name" value="#{patient.relativephone}" style="width: 250px"/>
                 </h:panelGrid>
-                            <h:commandButton value="Grabar" action="#{patientBean.add(people,patient,identityCard,gender)}" styleClass="buttonGrilla">
+            <div class="row-center-align">
+                <h:commandButton value="Grabar" action="#{patientBean.add(people,patient,identityCard,gender,hospital,sessionScope['id'])}" styleClass="buttonGrilla">
                 </h:commandButton>
                 <h:commandButton value="Cancelar" action="PatientList" styleClass="buttonGrilla">
                 </h:commandButton>
