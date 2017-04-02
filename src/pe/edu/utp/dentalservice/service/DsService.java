@@ -5,9 +5,9 @@ import pe.edu.utp.dentalservice.models.*;
 import java.sql.Connection;
 import java.util.List;
 
-/**
+/*
  * Created by Rodrigo Rivas on 18/03/2017.
- */
+*/
 public class DsService {
 
     private Connection connection;
@@ -435,14 +435,6 @@ public class DsService {
 
         return getPatientsEntity().create(patient);
 
-        /*
-
-        boolean p,u;
-        p = getPeoplesEntity().create(people, identityCard, gender, hospital);
-        people.setId(getPeoplesEntity().getPeopleId());
-        u = getUsersEntity().create(user,people);
-
-         */
     }
 
     public boolean updatePatient(Patient patient) {
@@ -733,11 +725,7 @@ public class DsService {
     public List<User> findAllUsers() {
         return getUsersEntity().findAll();
     }
-/*
-    public int getUsersCount() {
-        return getUsersEntity().getUsersCount();
-    }
-*/
+
     protected UsersEntity getUsersEntity() {
         if (connection != null) {
             if (usersEntity == null) {
@@ -747,7 +735,6 @@ public class DsService {
         }
         return usersEntity;
     }
-
 
     public boolean addUsersEntity(User user, People people,int perfilId) {
         return getUsersEntity().create(user,people,perfilId);
